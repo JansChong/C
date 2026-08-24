@@ -1,0 +1,25 @@
+# 编译产物
+build/
+Debug/
+Release/
+*.o
+*.obj
+*.elf
+*.bin
+*.hex
+*.map
+*.lst
+
+# Keil / IAR 等 IDE
+*.uvguix.*
+*.bak
+*.dep
+*.ewp
+*.eww
+
+# VSCode / 编辑器
+.vscode/
+*.swp
+
+# 厂商 SDK(按需,体积大就排除)
+# Drivers/STM32_xx_HAL_Driver/
