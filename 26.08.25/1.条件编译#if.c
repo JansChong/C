@@ -1,14 +1,13 @@
 #include <stdio.h>
+#include "../26.08.24/project/include/if.h"  // 在头文件使用条件编译
 
 #if 5 // 条件成立
-printf("654\n");
-printf("321\n");
 
-void func()
+void func(struct student) // 参数类型是在头文件if.h中定义的条件编译
 {
     printf("321\n");
 }
-printf("321\n");
+// printf("321\n"); // ❌ 错误：printf 必须在函数内部调用
 
 #endif
 
@@ -24,10 +23,10 @@ int main(int argc, char const *argv[])
     printf("456\n"); // 条件不成立， 就不会编译里面的代码， 而是直接删除掉里面的代码
 #endif
 
-    int a = 10;
-#if a > 0            // 变量表达式无法正常处理， 因为在预处理阶段，程序不会读取变量a的值，导致表达式不成立
-    printf("789\n"); // 带变量的条件表达式直接为假，
-    printf("987\n");
+int a = 10;
+#if a > 0            // 变量表达式无法正常处理， 预处理阶段变量默认设置为0， 尽量不要把变量作为条件编译的条件
+    printf("000\n"); // 带变量的条件表达式直接为假，
+    printf("000\n");
 #endif
 
 #if 5 // 条件成立

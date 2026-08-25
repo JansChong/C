@@ -62,3 +62,13 @@ int main(int argc, char const *argv[])
 }
 
 
+
+
+
+// typedef跟宏的区别：
+// 1、宏主要用于定义常量及书写复杂的内容；typedef主要用于定义类型别名。
+// 2、宏替换发生在编译阶段之前，属于文本插入替换；typedef是编译的一部分。
+// 3、宏不检查类型；typedef会检查数据类型。
+// 4、宏不是语句，不在最后加分号；typedef是语句，要加分号标识结束。
+// 5、注意对指针的操作，typedef char * p_char和#define p_char char *区别巨大。
+
