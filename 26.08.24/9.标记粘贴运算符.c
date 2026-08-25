@@ -1,10 +1,14 @@
 #include <stdio.h>
 
+// #a 在宏里面 一个#表示将a转成字符串
+// n##a  在宏里面  ## 将两个字面量 黏贴为一个 标识符
+
+
 // 标记粘贴运算符:  ## 将两个字面量 黏贴为一个 标识符
-#define PRIN1(a) printf("n" #a " = %d\n", n##a)
+#define PRIN1(a) printf("n" #a " = %d\n", n##a) // n10
 
 // ## 可以粘贴字面量 
-#define PRIN2(a) printf("n" #a " = %d\n", n##123)
+#define PRIN2(a) printf("n" #a " = %d\n", n##123) // n123
 
 
 

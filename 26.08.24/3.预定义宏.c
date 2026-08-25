@@ -15,7 +15,7 @@ int main(int argc, char const *argv[])
     printf("当前日期：%s\n", __DATE__); //  Aug 24 2026
     printf("当前时间：%s\n", __TIME__); // 15:00:33
     printf("当前文件名：%s\n", __FILE__); // 3.预定义宏.c
-    printf("当前函数名：%s\n", __FUNCTION__); // 3.预定义宏.c
+    printf("当前函数名：%s\n", __FUNCTION__); // main
 
     // 当前行：14
     // 当前日期：Aug 24 2026
