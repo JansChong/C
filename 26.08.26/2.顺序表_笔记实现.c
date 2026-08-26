@@ -56,7 +56,7 @@ SequeueList_t *create_list(int size)
  * @param: {} manager 要查询的结构体
  * @return boolean
  */
-bool isFull( SequeueList_t *manager)
+bool isFull(SequeueList_t *manager)
 {
 
 #if 0
@@ -73,12 +73,9 @@ bool isFull( SequeueList_t *manager)
     return (manager->last_idx + 1 == manager->size);
 }
 
-
-
-
 /**
  * @description: 尾插数据
- * @params: {} manager 管理结构体指针， 插入哪个管理结构体 
+ * @params: {} manager 管理结构体指针， 插入哪个管理结构体
  * @params: {} data 插入什么元素
  * @return  success return true;  fail return false;
  */
@@ -92,12 +89,13 @@ bool insert_data_to_tail(SequeueList_t *manager, elementType_t data)
         return false;
     }
 
-    #if 0
+    
+#if 0
     // 把元素插入 管理结构体 末尾
     manager->head[manager->last_idx + 1] = data;
     // 最末尾元素下标递增
     manager->last_idx++
-    #endif
+#endif
 
     // 简化：把元素插入 管理结构体 末尾, 最末尾元素下标递增
     manager->head[++manager->last_idx] = data;
@@ -107,19 +105,18 @@ bool insert_data_to_tail(SequeueList_t *manager, elementType_t data)
 
 /**
  * @description: 遍历显示顺序表中的所有元素
- * @return {} manager 
+ * @return {} manager
  * @return void
  */
-void show_sequeue_list(SequeueList_t *manager){
+void show_sequeue_list(SequeueList_t *manager)
+{
     for (int i = 0; i <= manager->last_idx; i++)
     {
         printf("%d \n", manager->head[i]);
     }
     printf("\n");
-    
 }
 
- 
 int main(int argc, char const *argv[])
 {
 }
