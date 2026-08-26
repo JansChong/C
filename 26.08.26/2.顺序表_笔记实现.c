@@ -52,15 +52,13 @@ SequeueList_t *create_list(int size)
 }
 
 /**
- * @description 判断顺序表是否已满
+ * @description: 判断顺序表是否已满
  * @param: {} manager 要查询的结构体
  * @return boolean
  */
 bool isFull(SequeueList_t *manager)
 {
-
 #if 0
-    
     // 如果初始化完成后，插入元素时， 最末尾元素下标+1 等于 可存储的元素个数
     if(manager->last_idx+1 == manager->size){
         printf("isFull insert error\n"); // 结构体已满，插入失败
@@ -74,13 +72,29 @@ bool isFull(SequeueList_t *manager)
 }
 
 /**
+ * @description: 判断当前顺序表是否为空
+ * @param: {} manager 要查询的结构体
+ * @return boolean
+ */
+bool isEmpty(SequeueList_t *manager)
+{
+    return (manager->last_idx == -1);
+}
+
+/**
  * @description: 尾插数据
- * @params: {} manager 管理结构体指针， 插入哪个管理结构体
- * @params: {} data 插入什么元素
+ * @param: {} manager 管理结构体指针， 插入哪个管理结构体
+ * @param: {} data 插入什么元素
  * @return  success return true;  fail return false;
  */
 bool insert_data_to_tail(SequeueList_t *manager, elementType_t data)
 {
+
+    if (manager == NULL)
+    {
+        printf("管理结构体还未初始化\n"); // 结构体已满，插入失败
+        return false;
+    }
 
     // 如果已存满
     if (isFull(manager))
@@ -89,17 +103,71 @@ bool insert_data_to_tail(SequeueList_t *manager, elementType_t data)
         return false;
     }
 
-    
 #if 0
-    // 把元素插入 管理结构体 末尾
-    manager->head[manager->last_idx + 1] = data;
-    // 最末尾元素下标递增
-    manager->last_idx++
+        // 把元素插入 管理结构体 末尾
+        manager->head[manager->last_idx + 1] = data;
+        // 最末尾元素下标递增
+        manager->last_idx++
 #endif
 
     // 简化：把元素插入 管理结构体 末尾, 最末尾元素下标递增
     manager->head[++manager->last_idx] = data;
+    return true;
+}
 
+/**
+ * @description: 删除顺序表中的某个元素
+ * @param: {} manager 顺序表指针
+ * @param: {} data 要删除的元素
+ * @return boolean
+ */
+bool del_one_data(SequeueList_t *manager, elementType_t data)
+{
+    if (manager == NULL)
+    {
+        printf("管理结构体还未初始化\n"); // 结构体已满，插入失败
+        return false;
+    }
+
+    // 如果管理结构体为空
+    if (isEmpty(manager))
+    {
+        printf("isEmpty! delete error\n");
+        return false;
+    }
+
+    // 假设找不到要删除的元素
+    bool isFind = false;
+
+    int pos = 0; // 不放在for里面是为了记录 要删除的元素下标并在for外使用
+    // 遍历所有顺序表中存储的元素
+    for (; pos <= manager->last_idx; pos++)
+    {
+        // 如果找到要删除的这个元素
+        if (manager->head[pos] == data)
+        {
+            // 存在要删除的元素
+            isFind = true;
+            break;
+        }
+    }
+
+    // 经过for循环, 如果没有找到要删除的元素
+    if (!isFind)
+    {
+        printf("not find\n");
+        return false;
+    }
+
+    // 从找到的元素下标 pos开始开始,
+    for (int i = pos; i <= manager->last_idx; i++)
+    {
+        // 后一项赋值前一项
+        manager->head[i] = manager->head[i + 1];
+    }
+
+    // 最末尾元素-1
+    manager->last_idx--;
     return true;
 }
 
@@ -110,13 +178,63 @@ bool insert_data_to_tail(SequeueList_t *manager, elementType_t data)
  */
 void show_sequeue_list(SequeueList_t *manager)
 {
+    if (manager == NULL) return;
+
     for (int i = 0; i <= manager->last_idx; i++)
     {
-        printf("%d \n", manager->head[i]);
+        printf("%d ", manager->head[i]);
     }
     printf("\n");
 }
 
+/**
+ * @description: 销毁顺序表
+ * @param: {} manager 要销毁的顺序表
+ * @return void
+ */
+void destory(SequeueList_t *manager)
+{
+    if (manager == NULL)
+    {
+        printf("要销毁的顺序表不存在\n");
+        return;
+    }
+
+    // 释放存储的数据
+    free(manager->head);
+    // 释放结构体
+    free(manager);
+}
+
 int main(int argc, char const *argv[])
 {
+    // 初始化
+    SequeueList_t *manager = create_list(5);
+
+    char keycode;
+    int data;
+
+    while (1)
+    {
+        scanf("%c %d", &keycode, &data);
+
+        if (keycode == 'i')
+        {
+            printf("插入数据:\n");
+            insert_data_to_tail(manager, data);
+            show_sequeue_list(manager);
+        }
+        else if (keycode == 'd')
+        {
+            printf("删除数据:\n");
+            del_one_data(manager, data);
+            show_sequeue_list(manager);
+        }
+        else if (keycode == 'e')
+        {
+            printf("销毁所有数据\n");
+            destory(manager);
+            manager = NULL;
+        }
+    }
 }
