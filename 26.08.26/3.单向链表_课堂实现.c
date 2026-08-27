@@ -206,12 +206,6 @@ bool Delete_pos_node(node_type_p head, int position){
 
 
 
-/**
-* @description: 删除指定元素
-* @param: {} 
-* @param: {} 
-* @return 
-*/
 
 int main(int argc, char const *argv[])
 {
