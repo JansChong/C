@@ -123,7 +123,7 @@ void show_list(node_type_p head)
         temp = temp->next; // 把后一个结点赋给变量，（这里的头结点是0， 不输出）
     }
 
-    printf("%d ", temp->data); // 直到输出最后一个结点， 再进入循环条件 直接退出
+    printf("%d ", temp->data); // 直到输出最后一个结点， 再判断循环条件 直接退出
     return;
 }
 
@@ -143,8 +143,13 @@ bool Insert_head(node_type_p head, node_type_p node)
 
     // 头插法， 一开始新节点先指向头结点的下一个节点， 再让头节点指向新节点
     // 头插：  新结点的next 指向 head的next,     head的next指向新结点，  （head结点数据是0，不是要记录的数据）
-    node->next = head->next;
-    head->next = node;
+    
+    // 如果 head 后面没有结点
+
+    // 如果 head 后面存在结点
+
+
+
 
     return true;
 }
@@ -218,7 +223,7 @@ bool Delete_pos_node(node_type_p head, int position)
 }
 
 /**
- * @description: 删除指定元素
+ * @description: TODO..  删除指定元素
  * @param: {}
  * @param: {}
  * @return
