@@ -88,6 +88,132 @@ bool Inser_Node_List_Tail(node_type_p node, node_type_p head){
     return true;
 }
 
+/**
+* @description: 遍历输出
+* @param: {} head:链表的头结点指针
+* @return void
+*/
+void show_list(node_type_p head){
+    if (head == NULL)
+    {
+        printf("链表没有创建\n");
+        return ;
+    }
+
+    // 从头开始 遍历链表 
+    node_type_p temp = head;
+
+    // 不是最后一个头结点
+    while (temp -> next != NULL)
+    {
+        temp = temp -> next; // 把后一个结点赋给变量， 直到最后一个结点，   （这里的头结点是0， 不输出）
+        printf("%d ", temp->data); // 直到输出最后一个结点， 再进入循环条件 直接退出
+    }
+    
+    return;
+}
+
+/**
+* @description: 在head头结点后面插入 -- 头插
+* @param: {} head: 头结点指针
+* @param: {} node: 新结点指针
+* @return boolean
+*/
+bool Insert_head(node_type_p head, node_type_p node){
+    if (head ==NULL)
+    {
+        printf("链表没有创建\n");
+        return false;
+    }
+
+    // 头插法， 一开始新节点先指向头结点的下一个节点， 再让头节点指向新节点
+    // 头插：  新结点的next 指向 head的next,     head的next指向新结点，  （head结点数据是0，不是要记录的数据）
+    node -> next = head -> next;
+    head -> next = node;
+    
+    return true;
+}
+
+/**
+* @description: 指定位置插入
+* @param: {} head 头结点指针
+* @param: {} position  要插入的位置， 例如： 5, 表示新结点会在顺序5的位置
+* @param: {} node 新节点指针
+* @return boolean
+*/
+bool Insert_pos(node_type_p head, int position ,node_type_p node){
+    if (head ==NULL)
+    {
+        printf("链表没有创建\n");
+        return false;
+    }
+    
+    node_type_p temp = head;
+
+    // 0  10   20    30   40    50     =>   插入位置3， 在20后面
+    for (int i = 1; i < position ; i++)
+    {
+        temp = temp -> next;
+
+        // 如果插入的位置在超出链表长度， 转尾插
+        if(temp -> next == NULL)  // 如果后面没结点了
+        {
+            break;  // 跳出循环， 插到最后一个结点后面
+        }
+    }
+
+    node -> next = temp -> next;
+    temp -> next = node;
+    
+    return true;
+    
+}
+
+
+/**
+* @description: 指定结点位置 删除元素
+* @param: {} head 头结点
+* @param: {} pos 要删除的结点位置
+* @return boolean
+*/
+bool Delete_pos_node(node_type_p head, int position){
+
+    if (head == NULL)
+    {   
+        printf("链表没有被创建\n");
+        return false;
+    }
+    
+
+    node_type_p temp = head;
+
+    // 0  [10  20  30  40]    删除下标2, 注意忽略0， 删除30
+    // 循环到指定位置, (拿到要删除的元素)
+    for (int i = 0; i < pos-1; i++)
+    {
+        temp = temp -> next;
+    }
+
+    // 临时保存要删除的数据
+    node_type_p delnode = temp -> next; // 30,  temp为20
+    temp -> next = temp ->next ->next;   // 把 30 的 next 赋值给 30 的上一个元素 的next
+
+    // 释放
+    free(delnode);
+    return true;
+    
+}
+
+
+
+/**
+* @description: 删除指定元素
+* @param: {} 
+* @param: {} 
+* @return 
+*/
+
 int main(int argc, char const *argv[])
 {
+
 }
