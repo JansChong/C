@@ -135,11 +135,11 @@ void insert_list_by_loc(int loc, elementType_t input_data)
         // 1，2，3，4，  插入n， 拿到n-1即可，执行n-2次
 
         // 找到插入位置的前一个结点
-        for (int i = 0; i < loc-2; i++)
+        for (int i = 0; i < loc - 2; i++)
         {
             temp = temp->next;
         }
-        
+
         // 实例化
         node_type_p new_node = malloc(sizeof(node_type));
         // 初始化
@@ -154,7 +154,43 @@ void insert_list_by_loc(int loc, elementType_t input_data)
     }
 }
 
-// 删除指定位置的元素
+/**
+ * 删除指定位置的元素 （数字是几就作为第几个元素，非下标）
+ * @param: {} loc 要删除的元素位置
+ * @return void
+ */
+void insert_list_by_loc(int loc)
+{
+
+    // 存储头结点
+    node_type_p temp = head;
+
+    // 删除第一个元素
+    if (loc == 1)
+    {
+        // 把第二个结点作为头结点;
+        head = temp->next;
+        // 删除头结点
+        free(temp);
+        temp = NULL;
+    }
+    // 删除最后一个元素
+    else if (loc == node_count)
+    {
+        // 遍历到最后一个结点的上一个结点. (temp本来就是头结点)
+        for (int i = 0; i < count - 2; i++)
+        {
+            temp = head->next;
+        }
+
+        // 删除掉 temp的下一个结点
+        free(temp -> next); // 释放掉最后一个结点 (但是里面的data可能没有清空, 可以考虑将删除的这个结点=NULL)
+        temp -> next = NULL; // 这里只是把NULL 指向 temp->next 属性, 不代表原本的被删除的尾结点等于NULL 
+
+        tail = temp; // 重置尾结点
+    }
+    // 删除中间的元素
+}
 
 // 显示所有数据
 
