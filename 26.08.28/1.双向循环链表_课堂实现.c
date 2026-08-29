@@ -22,8 +22,6 @@ node_type_p create_list(void){
 
       // 记录
 }
-上一个。
-prev
 /**
  * 新建结点
  */
