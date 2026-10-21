@@ -62,7 +62,7 @@ int main(int argc, char const *argv[])
 
     char string[] = "hello world"; // 定义数组, 在栈上分配内存并复制字符串内容
     // string[] = "hello"; // 报错 数组不能在声明后再次使用 [] 语法进行整体赋值
-    string = "hello";  // 这里string 指向元素首地址, 是一个常量(地址), 不能改变常量地址的指向  就像不能再计算机中让 固定指向字符h的地址 指向 hello
+    string = "hello";  // 这里string 指向元素首地址, 是一个常量(地址), 不能改变常量地址的指向  就像不能在计算机中让 固定指向字符h的地址 指向 hello
     printf("%s\n", string);
 
     // strcpy(string, "hello");  要修改 string[] 存储的字符串, 使用 strcpy 函数

@@ -1,7 +1,7 @@
 #include <stdio.h>
 
 // 要存储的数据的数据类型
-type int elementType_t;
+typedef int elementType_t;
 
 // 设计链表的数据结点 (结点结构体),    数据结点 = 数据域 + 指针域,
 typedef struct node_
@@ -9,7 +9,7 @@ typedef struct node_
     // 要存储的数据
     elementType_t data; // 数据域
     // 指向下一个结点的地址
-    struct node_ *next; // 指针域
+    struct node_ * next; // 指针域
 
 } node_type, *node_type_p;
 // node_type 是 struct node_ 的别名  (结点结构体数据类型的别名)
@@ -68,7 +68,7 @@ void insert_list_tail(elementType_t input_data)
     add_node->data = input_data;
     add_node->next = NULl;
 
-    tail->next = add_node; // 往之前的尾结点的next中存入新增结点
+    tail -> next = add_node; // 往之前的尾结点的next中存入新增结点
     tail = add_node;       // 现在自己是尾结点
 
     // 记录
@@ -153,6 +153,7 @@ void insert_list_by_loc(int loc, elementType_t input_data)
         temp->next = new_node;
     }
 }
+
 
 /**
  * 删除指定位置的元素 （数字是几就作为第几个元素，非下标）

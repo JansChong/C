@@ -13,7 +13,7 @@ typedef struct
 {
     int size;            // 可存储的元素个数
     int last_idx;        // 最末尾元素下标
-    elementType_t *head; // 顺序表内存空间的起始地址 -- 相当于数组名称
+    elementType_t *head; // 顺序表内存空间的起始地址 -- 相当于数组名称 
 } SequeueList_t;         // 类似于 js构造器
 
 /**

@@ -13,7 +13,7 @@ int main(int argc, char const *argv[])
     int num = 6.18; // 隐式转换，取6
     char c = 10;    // 将int类型的10转换成char类型，再赋值c =>  10是int类型，赋值给char8位整型，会截取后八位，做到隐式转换， 如果超出8位的范围[-128,127]，则会报警告
     char d = 'a';
-    int m = c; // 将char类型的'a', 转换为int, 再赋值m
+    int m = d; // 将char类型的'a', 转换为int, 再赋值m
 
     // 强制类型转换： 必须 在某个值的前面手动指定一个类型  (类型)变量名
     // float * k = &m; // 定义一个指针k 指向m的地址  这里报警告
