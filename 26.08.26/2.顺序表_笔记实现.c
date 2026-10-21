@@ -62,7 +62,7 @@ bool isFull(SequeueList_t *manager)
     // 如果初始化完成后，插入元素时， 最末尾元素下标+1 等于 可存储的元素个数
     if(manager->last_idx+1 == manager->size){
         printf("isFull insert error\n"); // 结构体已满，插入失败
-        return false;
+        return true;
     }
 #endif
 
@@ -92,7 +92,7 @@ bool insert_data_to_tail(SequeueList_t *manager, elementType_t data)
 
     if (manager == NULL)
     {
-        printf("管理结构体还未初始化\n"); // 结构体已满，插入失败
+        printf("管理结构体还未初始化\n");
         return false;
     }
 

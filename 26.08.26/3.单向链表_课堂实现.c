@@ -12,7 +12,7 @@ typedef struct node_
 // *node_type: 节点结构体指针数据类型的别名
 
 /**
- * @description: 创建链表
+ * @description: 创建链表（新建头结点，头结点不存值）
  * @return 申请到的头结点指针 or NULL
  */
 node_type_p create_head_list(void)
@@ -35,7 +35,7 @@ node_type_p create_head_list(void)
 
 
 /**
- * @description: 新建节点 -- 链表尾插
+ * @description: 新建(数据)节点 
  * @param: {int} data 新建节点的数据
  * @return 新建节点的指针 or NULL
  */
@@ -71,7 +71,7 @@ bool Inser_Node_List_Tail(node_type_p node, node_type_p head){
     }
     
     // 尾插: 遍历 找到最后一个节点 (某个节点的next为NULL)
-    node_type_p temp = head;
+    node_type_p temp = head; // 头节点赋值临时节点
 
     // 如果这个临时节点 不是最后一个节点 (next不为NULL)
     while (temp->next != NULL)
@@ -110,6 +110,7 @@ void show_list(node_type_p head){
         printf("%d ", temp->data); // 直到输出最后一个结点， 再进入循环条件 直接退出
     }
     
+    printf("\n");
     return;
 }
 
@@ -151,6 +152,7 @@ bool Insert_pos(node_type_p head, int position ,node_type_p node){
     node_type_p temp = head;
 
     // 0  10   20    30   40    50     =>   插入位置3， 在20后面
+    // 0  10   20    30   40    50     =>   插入位置0， 在0后面，因为头结点不存值
     for (int i = 1; i < position ; i++)
     {
         temp = temp -> next;
@@ -176,27 +178,39 @@ bool Insert_pos(node_type_p head, int position ,node_type_p node){
 * @param: {} pos 要删除的结点位置
 * @return boolean
 */
-bool Delete_pos_node(node_type_p head, int position){
+bool Delete_pos_node(node_type_p head, int pos){
 
     if (head == NULL)
     {   
         printf("链表没有被创建\n");
         return false;
     }
+    // jc补充代码：修复 没有元素时，删除第一个元素导致段错误的问题
+    else if (head -> next == NULL){
+        printf("链表中没有元素可以删除\n");
+        return false;
+    }
     
 
     node_type_p temp = head;
 
-    // 0  [10  20  30  40]    删除下标2, 注意忽略0， 删除30
-    // 循环到指定位置, (拿到要删除的元素)
+    // 0  [10  20  30  40]   忽略0， 删除位置2的结点, 即删除20
+    // 循环到指定位置, (拿到要删除的元素的上一个位置，用来保存后续结点)
     for (int i = 0; i < pos-1; i++)
     {
         temp = temp -> next;
+
+        // jc补充代码：修复 要删除位置超出单向链表的元素个数导致段错误 的问题
+        if(temp -> next == NULL){
+            printf("下标越界，该位置没有可删除的元素\n");
+            return false;
+        }
     }
 
+
     // 临时保存要删除的数据
-    node_type_p delnode = temp -> next; // 30,  temp为20
-    temp -> next = temp ->next ->next;   // 把 30 的 next 赋值给 30 的上一个元素 的next
+    node_type_p delnode = temp -> next; // 20,  temp为10
+    temp -> next = temp ->next ->next;   // 把 20 的 next 赋值给 20 的上一个元素 的next
 
     // 释放
     free(delnode);
@@ -210,4 +224,48 @@ bool Delete_pos_node(node_type_p head, int position){
 int main(int argc, char const *argv[])
 {
 
+    // 创建链表 （头节点）
+    node_type_p head = create_head_list();
+
+    // 修复 没有元素时，删除第一个元素导致段错误的问题
+    Delete_pos_node(head, 1); 
+
+    // 新建节点
+    node_type_p new_node1 = new_node(10);
+    node_type_p new_node2 = new_node(20);
+    node_type_p new_node3 = new_node(30);
+    node_type_p new_node4 = new_node(40);
+
+    // 尾插
+    Inser_Node_List_Tail(new_node1, head);
+    Inser_Node_List_Tail(new_node2, head);
+    Inser_Node_List_Tail(new_node3, head);
+    Inser_Node_List_Tail(new_node4, head);
+    
+    // 遍历输出
+    show_list(head); // 10 20 30 40 
+
+    // 删除指定结点位置的元素
+    Delete_pos_node(head, 2);
+    // 遍历输出
+    show_list(head); // 10 30 40
+
+
+    // 头插 -- 在参数中新建结点
+    Insert_head(head, new_node(1));
+    Insert_head(head, new_node(2));
+    Insert_head(head, new_node(3));
+    Insert_head(head, new_node(4));
+    // 遍历输出
+    show_list(head); // 4 3 2 1 10 30 40
+
+    // 指定位置插入
+    Insert_pos(head, 5, new_node(100));
+    // 遍历输出
+    show_list(head); // 4 3 2 1 100 10 30 40 
+
+    // 修复 如果指定删除的位置 超出单向链表的元素个数，段错误 的问题
+    Delete_pos_node(head, 9); 
+    // 遍历输出
+    show_list(head);
 }
