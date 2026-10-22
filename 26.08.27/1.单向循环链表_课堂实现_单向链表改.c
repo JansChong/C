@@ -55,7 +55,7 @@ node_type_p new_node(int data)
 }
 
 /**
- * 在链表的尾部插入节点
+ * @description: 尾插
  * @param: { } node 要插入的节点指针
  * @param: { } head 需要插入的目标链表的头节点指针
  * @return boolean
@@ -70,30 +70,29 @@ bool Inser_Node_List_Tail(node_type_p node, node_type_p head)
         return false;
     }
 
-    // 尾插: 遍历 找到最后一个节点 (某个节点的next为NULL)
+    // 尾插: 定义一个临时结点
     node_type_p temp;
 
     // 如果只有一个 head 结点
     if (head->next == NULL)
     {
-        temp = head;
+        temp = head; // 找到头结点
     }
     else
     {
-        temp = head->next;
+        temp = head->next; // 找到头结点
     }
 
-    // 如果这个临时节点 不是最后一个节点 (next不为NULL)
+    // 如果这个临时节点 不是最后一个节点  (临时结点的next不等于头结点)
     while (temp->next != head->next)
     {
         // 将下一个节点的地址 赋值给临时节点
         temp = temp->next;
     }
 
-    // 找到最后一个节点(next为NULL), 指向新节点地址
+    // 找到最后一个节点(next为头结点), next指向新节点地址
     temp->next = node;
-    node->next = head->next; // 这一步在创建new_node的时候 本来就是 NULL,  这里保留, 后续换到中间插入的时候 只需要改掉null指向即可
-                             // 改成 head -> next , 单向循环链表， 最后一个结点的next 指向 第一个结点
+    node->next = head->next; // 改成 head -> next , 单向循环链表， 最后一个结点的next 指向 第一个结点
 
     printf("插入节点成功!\n");
     return true;
@@ -111,6 +110,11 @@ void show_list(node_type_p head)
         printf("链表没有创建\n");
         return;
     }
+    else if (head->next == NULL)
+    {
+        printf("链表中还没有元素\n");
+        return;
+    }
 
     // 从第一个数据开始 遍历循环链表
     node_type_p temp = head->next;
@@ -123,12 +127,12 @@ void show_list(node_type_p head)
         temp = temp->next; // 把后一个结点赋给变量，（这里的头结点是0， 不输出）
     }
 
-    printf("%d ", temp->data); // 直到输出最后一个结点， 再判断循环条件 直接退出
+    printf("%d \n", temp->data); // 最后一个结点不满足循环条件，额外输出一次
     return;
 }
 
 /**
- * @description: 在head头结点后面插入 -- 头插
+ * @description: 头插
  * @param: {} head: 头结点指针
  * @param: {} node: 新结点指针
  * @return boolean
@@ -143,13 +147,32 @@ bool Insert_head(node_type_p head, node_type_p node)
 
     // 头插法， 一开始新节点先指向头结点的下一个节点， 再让头节点指向新节点
     // 头插：  新结点的next 指向 head的next,     head的next指向新结点，  （head结点数据是0，不是要记录的数据）
-    
+
     // 如果 head 后面没有结点
+    if (head->next == NULL)
+    {
+        head->next = node;
+        node->next = node;
+    }
 
     // 如果 head 后面存在结点
+    else
+    {
 
+        // 头插以后，要让原本的最后一个结点的next指向这个新的结点
+        node_type_p temp = head->next;
+        // 如果这个临时节点 不是最后一个节点  (临时结点的next不等于头结点)
+        while (temp->next != head->next)
+        {
+            // 将下一个节点的地址 赋值给临时节点
+            temp = temp->next;
+        }
+        temp->next = node;
 
-
+        // 头插
+        node->next = head->next;
+        head->next = node;
+    }
 
     return true;
 }
@@ -169,6 +192,13 @@ bool Insert_pos(node_type_p head, int position, node_type_p node)
         return false;
     }
 
+    // 1则头插
+    if (position == 1)
+    {
+        Insert_head(head, node);
+        return true;
+    }
+
     node_type_p temp = head;
 
     // 0  10   20    30   40    50     =>   插入位置3， 在20后面
@@ -177,7 +207,7 @@ bool Insert_pos(node_type_p head, int position, node_type_p node)
         temp = temp->next;
 
         // 如果插入的位置在超出链表长度， 转尾插
-        if (temp->next == NULL) // 如果后面没结点了
+        if (temp->next == head->next) // 如果后面没结点了
         {
             break; // 跳出循环， 插到最后一个结点后面
         }
@@ -190,12 +220,12 @@ bool Insert_pos(node_type_p head, int position, node_type_p node)
 }
 
 /**
- * @description: 指定结点位置 删除元素
+ * @description: 指定位置删除元素
  * @param: {} head 头结点
  * @param: {} pos 要删除的结点位置
  * @return boolean
  */
-bool Delete_pos_node(node_type_p head, int position)
+bool Delete_pos_node(node_type_p head, int pos)
 {
 
     if (head == NULL)
@@ -203,14 +233,53 @@ bool Delete_pos_node(node_type_p head, int position)
         printf("链表没有被创建\n");
         return false;
     }
+    // jc补充代码：修复 没有元素时，删除第一个元素导致段错误的问题
+    else if (head->next == NULL)
+    {
+        printf("链表中没有元素可以删除\n");
+        return false;
+    }
 
     node_type_p temp = head;
+
+    // 如果删除的是第一个，则要把最后一个结点的next绑定到第二个
+    if (pos == 1)
+    {
+        temp = head->next;
+
+        // 只有一个删除第一个
+        if (temp->next == head->next)
+        {
+            head->next = NULL;
+            free(temp);
+            return true;
+        }
+
+        // 有多个删除第一个
+        while (temp->next != head->next)
+        {
+            // 找到最后一个结点
+            temp = temp->next;
+        }
+        // 最后一个结点的next指向第二个结点
+        temp->next = head->next->next;
+        free(head->next);
+        head->next = temp->next;
+        return true;
+    }
 
     // 0  [10  20  30  40]    删除下标2, 注意忽略0， 删除30
     // 循环到指定位置, (拿到要删除的元素)
     for (int i = 0; i < pos - 1; i++)
     {
         temp = temp->next;
+
+        // jc补充代码：修复 要删除位置超出单向链表的元素个数导致段错误 的问题
+        if (temp->next == head->next)
+        {
+            printf("下标越界，该位置没有可删除的元素\n");
+            return false;
+        }
     }
 
     // 临时保存要删除的数据
@@ -223,12 +292,140 @@ bool Delete_pos_node(node_type_p head, int position)
 }
 
 /**
- * @description: TODO..  删除指定元素
- * @param: {}
- * @param: {}
- * @return
+ * @description:  删除指定元素
+ * @param: {} head 头结点
+ * @param: {} val 要删除的元素的值
+ * @return boolean
  */
+bool Delete_specified_element(node_type_p head, int val)
+{
+    if (head == NULL)
+    {
+        printf("链表没有被创建\n");
+        return false;
+    }
+    // jc补充代码：修复 没有元素时，删除第一个元素导致段错误的问题
+    else if (head->next == NULL)
+    {
+        printf("空链表，没有元素可以删除\n");
+        return false;
+    }
+
+    // 循环匹配
+    node_type_p temp = head->next; // 第一个结点
+    // 记录要删除的元素的上一个结点的信息
+    node_type_p prev = head;
+    // 假设不存在要删除的元素
+    bool flag = false;
+
+    // 0  [10  20  30  40]  30
+    while (true)
+    {
+        // 找到要删除的元素
+        if (temp->data == val)
+        {
+            // 存在要删除的元素
+            flag = true;
+            break;
+        }
+        // 找到的这个结点是最后一个结点，退出循环
+        else if (temp->next == head->next)
+        {
+            break;
+        }
+        else
+        {
+            temp = temp->next;
+            prev = prev->next;
+        }
+    }
+
+    // 如果没有要删除的元素
+    if (!flag)
+    {
+        printf("没有要删除的这个元素\n");
+        return false;
+    }
+
+    // 如果链表中只有一个元素且是需要删除的元素
+    else if (prev == head)
+    {
+        head->next = NULL;
+        free(temp);
+    }
+    // 如果链表中不止有一个元素
+    else
+    {
+        prev->next = temp->next;
+        free(temp);
+    }
+}
 
 int main(int argc, char const *argv[])
 {
+
+    // 创建链表
+    node_type_p head = create_head_list();
+
+    // 修复没有元素时，删除第一个元素的问题
+    Delete_pos_node(head, 1);
+    // 修复没有元素时，删除指定元素的问题
+    Delete_specified_element(head, 10);
+
+    // 新增结点
+    node_type_p new_node1 = new_node(10);
+    node_type_p new_node2 = new_node(20);
+    node_type_p new_node3 = new_node(30);
+    node_type_p new_node4 = new_node(40);
+
+    // 遍历
+    show_list(head);
+
+    // 尾插
+    Inser_Node_List_Tail(new_node1, head);
+    show_list(head); // 10
+    Delete_pos_node(head, 1); // 只有一个结点时删除一个结点
+    show_list(head); // 链表中还没有元素
+
+    Inser_Node_List_Tail(new_node2, head);
+    Inser_Node_List_Tail(new_node3, head);
+    Inser_Node_List_Tail(new_node4, head);
+    // 遍历
+    show_list(head); // 20 30 40
+
+    // 删除指定结点位置的元素
+    Delete_pos_node(head, 2);
+    // 遍历输出
+    show_list(head); // 20  40
+
+    // 头插 -- 在参数中新建结点
+    Insert_head(head, new_node(1));
+    Insert_head(head, new_node(2));
+    Insert_head(head, new_node(3));
+    Insert_head(head, new_node(4));
+
+    // 遍历输出
+    show_list(head); // 4 3 2 1 20  40
+
+    // 指定位置插入
+    Insert_pos(head, 1, new_node(5));    // 插入第一个即头插
+    show_list(head);                     // 5 4 3 2 1 20  40
+    Insert_pos(head, 800, new_node(50)); // 超出范围则尾插
+    show_list(head);                     // 5 4 3 2 1 20  40 50
+    Insert_pos(head, 6, new_node(0));    // 插入第六个位置
+    show_list(head);                     // 5 4 3 2 1 0 20 40 50 
+
+
+    // 删除指定结点位置的元素
+    Delete_pos_node(head, 200); // 下标越界，该位置没有可删除的元素
+
+    Delete_pos_node(head, 10); // 下标越界，该位置没有可删除的元素
+    show_list(head); // 5 4 3 2 1 0 20 40 50
+    Delete_pos_node(head, 9); // 删掉最后一个结点，50
+    show_list(head); // 5 4 3 2 1 0 20 40
+    Delete_pos_node(head, 1); // 删掉第一个结点，5
+    show_list(head); // 4 3 2 1 0 20 40 
+
+    Delete_pos_node(head, 3); // 删掉第三个结点，2
+    show_list(head); // 4 3 1 0 20 40 
 }
