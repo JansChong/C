@@ -46,7 +46,7 @@ main(int argc, char const *argv[])
     printf("联合体的地址 %p\n", &a1.a);            // 30   00 
 
     printf("联合体的大小 %ld\n", sizeof(union p)); // 20
-    printf("联合体的地址 %p\n", &a2.a);            //  2f   ff
+    printf("联合体的地址 %p\n", &a2.a);            // 2f   ff
 
     // printf("联合体的大小 %ld\n", sizeof(d));       // 20
 }

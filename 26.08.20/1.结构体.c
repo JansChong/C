@@ -28,7 +28,8 @@ struct
     int year;
     char name;
     float score;
-} e, f; //  只有e和f变量可以使用这个匿名结构体8
+} e, f; //  只有e和f变量可以使用这个匿名结构体
+
 int main(int argc, char const *argv[])
 {
     // 由于结构体内部拥有多个不同类型的成员，因此初始化采用与数组类似的列表方式

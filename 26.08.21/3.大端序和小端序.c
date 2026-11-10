@@ -12,5 +12,5 @@ int main(int argc, char const *argv[])
     // 大端存储：内存的高地址放低位， 低地址放高位
 
 
-    
+    // 用变量 和 联合体 分别验证 ubuntu 是大端序还是小端序
 }

@@ -8,7 +8,8 @@ int num1 = 10;
 static int num2 = 666; // static修饰的全局变量, 不能进行跨文件使用
 static int num3 = 888;
 
-// static全局变量的 目的是什么?
+// static全局变量的 目的是什么? 
+// 避免跨文件的同名变量 造成污染
 
 // 函数默认可以跨文件调用
 void func(void)

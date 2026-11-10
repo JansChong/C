@@ -21,7 +21,7 @@ int main(int argc, char const *argv[])
 {
 
     // 指针变量访问 func() 返回的地址
-    int *p = func(); // 定义一个指针变量
+    int * p = func(); // 定义一个指针变量
 
     // printf("m的地址 :%p\n", p); // p是指针变量p本身, 其值等于函数返回的 m的地址
     // printf("p的地址 :%p\n", &p); // &p是指针变量p 自己的地址, 即指针变量p自己在内存中的位置
