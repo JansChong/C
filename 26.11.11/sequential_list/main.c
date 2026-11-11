@@ -26,13 +26,19 @@ int main(int argc, char const *argv[])
 
     // 头部删除
     delete_head(list);
-    delete_head(list);
-    delete_head(list);
-    delete_head(list);
-    delete_head(list);
-    // 尾部删除
+    // delete_head(list);
+    // delete_head(list);
+    // delete_head(list);
+    // delete_head(list);
 
-    // 查找数据
+    // 尾部删除
+    delete_tail(list);
+    // delete_tail(list);
+    // delete_tail(list);
+    // delete_tail(list);
+    // delete_tail(list);
+
+    // TODO.. 查找数据
 
     // 显示元素
     show_list(list); // 0 10 20 30

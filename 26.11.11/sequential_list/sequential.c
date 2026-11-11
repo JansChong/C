@@ -79,6 +79,7 @@ bool insert_tail(Seq_type_p list, int value)
         return true;
     }
 
+    printf("尾插失败\n");
     return false; // 插入失败
 }
 
@@ -106,31 +107,49 @@ bool insert_head(Seq_type_p list, int value)
     }
 
     // 否则顺序表已满，插入失败
+    printf("头插失败\n");
     return false;
 }
 
-// 头部删除
+
+/**
+* @description: 头部删除
+* @param: {} list 指向顺序表的指针
+* @return boolean
+*/
 bool delete_head(Seq_type_p list)
 {
     // 不为空
     if (!isEmpty(list))
     {
+        // 后一项挪到前一项
         for (int i = 0; i < list->last; i++)
         {
             list->data[i] = list->data[i + 1];
         }
         list->last--;
-        printf("删除成功\n");
+        printf("头部删除成功\n");
         return true;
     }
 
-    printf("删除失败\n");
+    printf("头部删除失败\n");
     return false;
 }
 
 // 尾部删除
 bool delete_tail(Seq_type_p list)
 {
+    // 不为空
+    if (!isEmpty(list))
+    {
+        list->last--;
+        printf("尾部删除成功\n");
+        return true;
+    }
+
+    // 删除失败
+    printf("尾部删除元素失败\n");
+    return false;
 }
 
 /**
@@ -139,7 +158,8 @@ bool delete_tail(Seq_type_p list)
  * @return boolean
  */
 void show_list(Seq_type_p list)
-{
+{ 
+    printf("显示顺序表数据: ");
     // 不为空才显示顺序表， 为空已有输出
     if (!isEmpty(list))
     {

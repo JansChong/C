@@ -20,6 +20,8 @@ bool insert_head(Seq_type_p list, int value);
 bool insert_tail(Seq_type_p list, int value);
 // 删除头部
 bool delete_head(Seq_type_p list);
+// 尾部删除
+bool delete_tail(Seq_type_p list);
 
 // 显示
 void show_list(Seq_type_p list);
