@@ -11,23 +11,18 @@ int main(int argc, char const *argv[])
     double decreasing_height = INITIAL_HEIGHT; // 递减高度
     double accumulated_height = INITIAL_HEIGHT; // 所经路径
 
-    for (int i = 0; ; i++)
+    decreasing_height /= 2;
+
+    for (int i = 2; i<=10; i++)
     {
-        s /= 2;
-        if (i == 9)
-        {
-            h += s;
-            break;
-        }
-        h += s * 2;
+      accumulated_height += decreasing_height * 2;
+      decreasing_height /= 2;
     }
 
     // 经过for, s的高度为第10次反弹的高度
     // 第10次反弹的高度不需要加进去，只要第10次落地时经过的距离
-    printf("%f %f\n", h, s);
+    printf("%f %f\n", accumulated_height, decreasing_height);
 }
 
 
-https://www.runoob.com/cprogramming/c-exercise-example20.html
-// 100      50      25
-// 1        2       3
+// https://www.runoob.com/cprogramming/c-exercise-example20.html

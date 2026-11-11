@@ -40,7 +40,6 @@ int main(int argc, char const *argv[])
                 strcpy(str[j+1], temp);
             }
         }
-        
     }
 
 
