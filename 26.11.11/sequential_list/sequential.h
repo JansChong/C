@@ -25,6 +25,10 @@ bool delete_head(Seq_type_p list);
 bool delete_tail(Seq_type_p list);
 // 在顺序表中查找指定元素
 int find_value(Seq_type_p list, int value);
+// 指定位置插入
+bool insert_pos(Seq_type_p list, int value, int pos);
+// 指定位置删除
+bool delete_pos(Seq_type_p list, int pos);
 // 显示顺序表
 void show_list(Seq_type_p list);
 // 销毁顺序表

@@ -63,10 +63,10 @@ static bool isFull(Seq_type_p list)
     return false; // 未满
 }
 
-// TODO.. 顺序表参数不合法， 如尾插时传递的 list为NULL，未初始化
+// TODO.. 顺序表参数不合法， 如尾插时传递的 list为NULL(未初始化)
 
 /**
- * @description: 在顺序表的尾部插入一个元素
+ * @description: 尾插
  * @param: {} list 指向顺序表的指针
  * @param: {} value 新插入元素的值
  * @return boolean
@@ -87,12 +87,12 @@ bool insert_tail(Seq_type_p list, int value)
 }
 
 /**
- * @description: 在顺序表的头部插入一个元素
+ * @description: 头插
  * @param: {} list 指向顺序表的指针
  * @param: {} value 新插入元素的值
  * @return boolean
  */
-bool insert_head(eq_type_p list, int value)
+bool insert_head(Seq_type_p list, int value)
 {
     // 判断顺序表是否已满，如果未满
     if (!isFull(list))
@@ -115,30 +115,79 @@ bool insert_head(eq_type_p list, int value)
     return false;
 }
 
+/**
+ * 指定位置插入
+ * @param: {}
+ * @param: {}
+ * @return
+ */
+// list 参数需合法
+bool insert_pos(Seq_type_p list, int value, int pos)
+{
+
+    // pos 下标边界控制 需要包含头插（pos等于0）和尾插（pos等于list->last + 1）
+    if (pos < 0 || pos > list->last + 1)
+    {
+        printf("插入位置超过边界\n");
+        return false;
+    }
+
+    // 顺序表未满
+    else if (!isFull(list))
+    {
+        // 从末尾到该位置往后挪
+        for (int i = list->last; i >= pos; i--)
+        {
+            list->data[i + 1] = list->data[i];
+        }
+
+        list->data[pos] = value;
+        list->last++;
+
+        printf("指定位置插入成功\n");
+        return true;
+    }
+
+    printf("指定位置插入失败\n");
+    return false;
+}
 
 /**
-* @description: 指定位置插入 
-* @param: {} 
-* @param: {} 
-* @return 
-*/
+ * 指定位置删除
+ * @param: {}
+ * @param: {}
+ * @return
+ */
 // list 参数合法
-// 顺序表不能为满
-// pos 下标边界 需要包含头插和尾插
 
+
+bool delete_pos(Seq_type_p list, int pos)
+{
+    // pos 下标边界控制
+    if (pos < 0 || pos > list->last + 1)
+    {
+        printf("删除位置超过边界\n");
+        return false;
+    }
+
+    // 顺序表不能为空
+    else if(!isEmpty(list)){
+        // 从当前位置开始， 所有元素往当前位置挪动一位
+        for (int i = pos; i < list->last; i++)
+        {
+            list->data[i] = list->data[i+1];
+        }
+        printf("指定位置元素删除成功\n");
+        list->last--;
+        return true;
+    }
+
+   printf("指定位置删除失败\n");
+   return false;
+}
 
 /**
-* @description: 指定位置删除
-* @param: {} 
-* @param: {} 
-* @return 
-*/
-// list 参数合法
-// 顺序表不能为空
-// pos 下标边界 
-
-/**
- * @description: 头部删除
+ * 头删
  * @param: {} list 指向顺序表的指针
  * @return boolean
  */
@@ -161,7 +210,11 @@ bool delete_head(Seq_type_p list)
     return false;
 }
 
-// 尾部删除
+/**
+ * 尾删
+ * @param: {} list 指向顺序表的指针
+ * @return boolean
+ */
 bool delete_tail(Seq_type_p list)
 {
     // 不为空
@@ -178,7 +231,7 @@ bool delete_tail(Seq_type_p list)
 }
 
 /**
- * @description: 在顺序表中查找指定元素, 找得到返回下标， 否则返回-1
+ * 在顺序表中查找指定元素, 找得到返回下标， 否则返回-1
  * @param: {} list 要查找的数据表
  * @param: {} value 要查找的数据
  * @return int 找得到返回下标， 找不到返回-1
@@ -226,6 +279,9 @@ void show_list(Seq_type_p list)
     }
 }
 
+/**
+ * 销毁顺序表
+ */
 void destroy_list(Seq_type_p list)
 {
 
