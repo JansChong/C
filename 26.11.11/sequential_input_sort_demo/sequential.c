@@ -1,0 +1,133 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include "sequential.h"
+
+// 创建一个顺序表，
+// 并从键盘接收数字输入，
+// 将输入的正整数按从小到大的顺序插入顺序表，
+// 并在输入负整数的时候将其绝对值数据删除。
+// 每次输入后，将顺序表的内容打印到屏幕上。
+
+// 初始化
+Seq_type_p init_list(int length)
+{
+
+    // 管理结构体申请空间
+    Seq_type_p list = (Seq_type_p)malloc(sizeof(Seq_type));
+
+    if (list != NULL)
+    {
+
+        list->length = length;
+        list->last = -1;
+        list->data = (int *)malloc(sizeof(int) * length);
+
+        // 如果申请失败
+        if (list->data == NULL)
+        {
+            free(list);
+            printf("顺序表管理结构体初始化失败\n");
+            return NULL;
+        }
+    }
+
+    // 返回顺序表结构体
+    return list;
+}
+
+// 创建一个顺序表，并从键盘接收数字输入，将输入的正整数按从小到大的顺序插入顺序表，并在输入负整数的时候将其绝对值数据删除。每次输入后，将顺序表的内容打印到屏幕上。
+void input_and_show_list(Seq_type_p list)
+{
+
+    for (int i = 0; i < list->length; i++)
+    {
+        // TODO.. 第一个 last是 -1
+        printf("请输入第%d个数: ", (list->length - (list->length - list->last)) + 2);
+
+        // 输入的数
+        int value;
+        scanf("%d", &value);
+
+        // 输入的正整数
+        if (value >= 0)
+        {
+            // 按从小到大的顺序插入顺序表
+            sort_insert(list, value);
+        }
+        // 输入负整数
+        else
+        {
+            // TODO.. 在顺序表中删除这个数的绝对值
+        }
+
+        // 显示最新的顺序表
+        show_list(list);
+    }
+}
+
+// 按从小到大的顺序插入顺序表
+bool sort_insert(Seq_type_p list, int value)
+{
+    // 如果没有元素 或者 比表头小
+    if (list->last == -1 || value < list->data[0])
+    {
+        // 头插： 从最后一个往前 直到 要插入的位置， 其元素往后挪动一位
+        for (int i = list->last; i >= 0; i--)
+        {
+            list->data[i + 1] = list->data[i];
+        }
+        // 插入
+        list->data[0] = value;
+        list->last++;
+
+        return true;
+    }
+    // 比尾大
+    else if (value > list->data[list->last])
+    {
+        list->data[++list->last] = value;
+        return true;
+    }
+    // 在中间
+    else
+    {
+        // 记录要插入的位置
+        int flag;
+
+        // 遍历表 -> 记录要插入的位置
+        for (int i = 0; i < list->last; i++)
+        {
+            if (value >= list->data[i] && value < list->data[i + 1])
+            {
+                flag = i + 1;
+                break;
+            }
+        }
+
+        // 中间插入： 要插入的位置和之后的元素，往后挪动一位
+        for (int i = list->last; i >= flag; i--)
+        {
+            list->data[i + 1] = list->data[i];
+        }
+        // 插入
+        list->data[flag] = value;
+        list->last++;
+        return true;
+    }
+}
+
+// 显示顺序表
+void show_list(Seq_type_p list)
+{
+
+    // todo.. list参数有效 且 list->data 不为空
+
+    //
+    printf("顺序表更新：");
+    for (int i = 0; i <= list->last; i++)
+    {
+        printf("%d ", list->data[i]);
+    }
+    printf("\n");
+}
