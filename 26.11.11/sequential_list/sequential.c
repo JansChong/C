@@ -92,7 +92,7 @@ bool insert_tail(Seq_type_p list, int value)
  * @param: {} value 新插入元素的值
  * @return boolean
  */
-bool insert_head(Seq_type_p list, int value)
+bool insert_head(eq_type_p list, int value)
 {
     // 判断顺序表是否已满，如果未满
     if (!isFull(list))

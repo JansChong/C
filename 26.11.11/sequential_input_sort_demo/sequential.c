@@ -42,9 +42,8 @@ void input_and_show_list(Seq_type_p list)
 
     for (int i = 0; i < list->length; i++)
     {
-        // TODO.. 第一个 last是 -1
+        // 判断当前输入的是第几个数
         printf("请输入第%d个数: ", (list->length - (list->length - list->last)) + 2);
-
         // 输入的数
         int value;
         scanf("%d", &value);
@@ -59,6 +58,17 @@ void input_and_show_list(Seq_type_p list)
         else
         {
             // TODO.. 在顺序表中删除这个数的绝对值
+            bool res = delete_value(list, abs(value));
+
+            // 如果删除成功, list-data则少了一条数据
+            if (res)
+            {
+                // printf("%d删除成功\n", value);
+                i--; // 补回少的这条数据
+            }
+
+            // 又因为本次输入占用了一次输入（即使没有删除到元素）， 所以要补回本次输入的次数
+            i--;
         }
 
         // 显示最新的顺序表
@@ -84,7 +94,7 @@ bool sort_insert(Seq_type_p list, int value)
         return true;
     }
     // 比尾大
-    else if (value > list->data[list->last])
+    else if (value >= list->data[list->last])
     {
         list->data[++list->last] = value;
         return true;
@@ -117,6 +127,40 @@ bool sort_insert(Seq_type_p list, int value)
     }
 }
 
+// 删除目标值的绝对值
+bool delete_value(Seq_type_p list, int value)
+{
+    // 定义要删除的元素的下标
+    int flag = -1;
+
+    // 查找该元素
+    for (int i = 0; i <= list->last; i++)
+    {
+        if (value == list->data[i])
+        {
+            // 找到要删除的元素的下标
+            flag = i;
+            break;
+        }
+    }
+
+    if (flag != -1)
+    {
+        // 不管头删，尾删，中间删，都用这个循环
+        for (int i = flag; i < list->last; i++)
+        {
+            list->data[i] = list->data[i + 1];
+        }
+        list->last--;
+        return true;
+    }
+    else
+    {
+        printf("找不到需要删除的元素\n");
+        return false;
+    }
+}
+
 // 显示顺序表
 void show_list(Seq_type_p list)
 {
@@ -124,7 +168,7 @@ void show_list(Seq_type_p list)
     // todo.. list参数有效 且 list->data 不为空
 
     //
-    printf("顺序表更新：");
+    printf("######### 顺序表更新：");
     for (int i = 0; i <= list->last; i++)
     {
         printf("%d ", list->data[i]);

@@ -21,6 +21,9 @@ void input_and_show_list(Seq_type_p list);
 
 // 按从小到大的顺序插入顺序表
 bool sort_insert(Seq_type_p list, int value);
+// 删除目标值的绝对值
+bool delete_value(Seq_type_p list, int value);
+
 // 显示顺序表
 void show_list(Seq_type_p list);
 #endif // !_SEQUENTIAL_H
