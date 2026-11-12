@@ -12,3 +12,6 @@ int main(int argc, char const *argv[])
 }
 
 // 30 100 90 80 95 60 80 80 120 -20 
+
+
+30

@@ -159,8 +159,6 @@ bool insert_pos(Seq_type_p list, int value, int pos)
  * @return
  */
 // list 参数合法
-
-
 bool delete_pos(Seq_type_p list, int pos)
 {
     // pos 下标边界控制
