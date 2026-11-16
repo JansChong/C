@@ -65,8 +65,8 @@ bool enQueue(circular_queue_type_p manager, int value)
     // 取余, 循环队尾指针, 避免上面的情况
     manager->rear = (manager->rear + 1) % manager->max_size;
 
-    printf("%d ", manager->front);
-    printf("%d \n", manager->rear);
+    // printf("%d ", manager->front);
+    // printf("%d \n", manager->rear);
     return true;
 }
 
