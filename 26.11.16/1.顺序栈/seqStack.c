@@ -1,5 +1,7 @@
 #include "seqStack.h"
 
+// 栈：先进后出，后进先出 （即只需尾插尾删）
+
 // 初始化管理结构体
 seqStack_type_p init_stack(int size)
 {
@@ -61,7 +63,7 @@ static bool isWorng(seqStack_type_p manager)
     return manager == NULL;
 }
 
-// 入栈、压栈
+// 入栈、压栈 (尾插)
 bool push(seqStack_type_p manager, int value)
 {
     // 判满
@@ -75,7 +77,7 @@ bool push(seqStack_type_p manager, int value)
     return true;
 }
 
-// 出栈、弹栈
+// 出栈、弹栈 (尾删)
 bool pop(seqStack_type_p manager)
 {
     // 判空
