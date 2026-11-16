@@ -34,7 +34,7 @@ circular_queue_type_p init_queue(int length)
 
 // 判空
 static bool isEmpty(circular_queue_type_p manager)
-{   
+{
     // 队头等于队尾, 空队列
     return manager->front == manager->rear;
 }
@@ -43,7 +43,7 @@ static bool isEmpty(circular_queue_type_p manager)
 static bool isFull(circular_queue_type_p manager)
 {
     // 取模判定队列是否为空
-    return (manager->rear + 1) % manager->max_size == manager->rear;
+    return (manager->rear + 1) % manager->max_size == manager->front;
 }
 
 // 入队
@@ -58,7 +58,6 @@ bool enQueue(circular_queue_type_p manager, int value)
 
     // 入队
     manager->data[manager->rear] = value;
-
 
     // rear会加到很大, 超过int *data的下标, 可能会越界访问其他地址
     // manager->rear++
@@ -94,16 +93,17 @@ bool outQueue(circular_queue_type_p manager)
 }
 
 // 遍历队列  TODO..
-void forEach(circular_queue_type_p manager){
+void forEach(circular_queue_type_p manager)
+{
     // 判空
-    if(isEmpty(manager)){
+    if (isEmpty(manager))
+    {
         printf("空队列, 无需遍历\n");
         return;
     }
 
-
     // TODO..  队头可能再后面, 队尾可能再前面, 所以只要队头不等于队尾, 让队头往后加即可
-    for (int i = manager->front; i != manager->rear; i = (i+1)%manager->max_size)
+    for (int i = manager->front; i != manager->rear; i = (i + 1) % manager->max_size)
     {
         printf("%d ", manager->data[i]);
     }
@@ -111,3 +111,10 @@ void forEach(circular_queue_type_p manager){
     printf("\n");
 }
 
+
+// 销毁队列
+void destroy(circular_queue_type_p manager){
+    free(manager->data); 
+    free(manager);
+    printf("循环队列已销毁\n");
+}

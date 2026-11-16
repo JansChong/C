@@ -29,10 +29,13 @@ typedef struct
 } circular_queue_type, *circular_queue_type_p;
 
 circular_queue_type_p init_queue(int length);
-static bool isEmpty(circular_queue_type_p manager);
-static bool isFull(circular_queue_type_p manager);
+// 入队
 bool enQueue(circular_queue_type_p manager, int value);
+// 出队
 bool outQueue(circular_queue_type_p manager);
+// 遍历
 void forEach(circular_queue_type_p manager);
+// 销毁
+void destroy(circular_queue_type_p manager);
 
 #endif // !_CIRCULAR_QUEUE_H
