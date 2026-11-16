@@ -12,3 +12,8 @@ C语言&amp;嵌入式学习
 按 Ctrl + Shift + P 打开命令面板。
 输入 Terminal: Select Default Profile。
 选择 ‌Git Bash‌。
+
+
+
+沈华龙: 【有道云笔记】GZ2634
+https://share.note.youdao.com/s/AMtJbdk8

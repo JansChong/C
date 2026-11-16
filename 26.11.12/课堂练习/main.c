@@ -7,7 +7,7 @@ int main(int argc, char const *argv[])
     int keycode;
 
     // 初始化
-    node_type_p head = init_list();
+    node_type_p head = init_list(50);
 
     struct student_info a = {100001, "张三", 90};
     struct student_info b = {.id = 100002, .name = "李四", .score = 92};
