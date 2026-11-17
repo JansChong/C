@@ -28,6 +28,8 @@ typedef struct
       node_type_p rear;  // 队尾
 } link_queue_type, *link_queue_type_p;
 
+// 初始化 -- 返回管理结构体
+link_queue_type_p init_link_queue();
 // 入队
 bool enQueue(link_queue_type_p manager, int value);
 // 出队
