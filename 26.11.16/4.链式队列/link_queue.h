@@ -18,7 +18,7 @@
 typedef struct Node
 {
       int data;          // 数据域
-      struct Node *Next; // 指针域名
+      struct Node *next; // 指针域名
 } node_type, *node_type_p;
 
 // 队列管理 结构体定义 (队列)
@@ -28,7 +28,14 @@ typedef struct
       node_type_p rear;  // 队尾
 } link_queue_type, *link_queue_type_p;
 
-
+// 入队
+bool enQueue(link_queue_type_p manager, int value);
+// 出队
+bool outQueue(link_queue_type_p manager);
+// 遍历
+void forEach(link_queue_type_p manager);
+// 销毁
+void destroy(link_queue_type_p manager);
 
 
 #endif // !_LINK_QUEUE_H
