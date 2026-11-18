@@ -14,7 +14,7 @@ struct seat_details
     short type;  // 0 头等舱    1 公务舱    2 经济舱
     int count;   // 座位数量
     float price; // 价格
-}
+};
 
 // 航司 国航(CA)、东航(MU)、南方(CZ)、海航(HU)、九元(NA)
 // 航班号： 航司 + 编码

@@ -2,7 +2,9 @@
 #ifndef _FLIGHT_INFO_H
 #define _FLIGHT_INFO_H
 
-// 航班信息数据 结构体
+#include "main.h"
+
+// 航班信息数据 数据结构体
 typedef struct flight_info_data
 {
     // 航班信息：
@@ -30,7 +32,7 @@ typedef struct flight_info_data
     char *arrival_time;
 } flight_info_data_type;
 
-// 航班信息数据 管理结构体  （单链表）
+// 航班信息数据 管理链表  （航班可以有很多，这里用单链表）
 typedef struct flight_info_link
 {
     // 数据域
@@ -38,7 +40,7 @@ typedef struct flight_info_link
     // 指针域
     struct flight_info_link *next;
 
-} flight_info_type, flight_info_type_p;
+} flight_info_type, *flight_info_type_p;
 
 // 初始化
 flight_info_type_p flight_init_list(void);
