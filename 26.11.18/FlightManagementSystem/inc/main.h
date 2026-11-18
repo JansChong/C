@@ -8,6 +8,8 @@
 #include <string.h>
 
 
+
+
 // 仓位席别+数量+价格 （航班信息、联合航班信息）
 struct seat_details
 {

@@ -4,6 +4,9 @@
 
 #include "main.h"
 
+// 航班管理 跨文件声明 在 main.c 中已定义
+extern flight_info_type_p flight_info_manager; 
+
 // 航班信息数据 数据结构体
 typedef struct flight_info_data
 {

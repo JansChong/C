@@ -5,14 +5,17 @@
 #include "main.h"
 #include "airline_administrator.h"
 
-// 航司信息：，
-typedef struct airline_info
+// 航司管理 跨文件声明 在 main.c 中已定义
+extern airlines_seq_type_p airline_info_manager;
+
+// 航司信息：
+typedef struct
 {
     char *air_name;     // 航司名称
     char *abbreviation; // 缩写
 
     air_admin_type employee_list[20]; // 员工信息限制20个
-    // 管理数组长度, 插入和判空用 （也可以用 sizeof(数组)/sizeof(数组项) = length ）
+    // 当前员工数量, 插入和判空用 （也可以用 sizeof(数组)/sizeof(数组项) = length ）
     int employee_list_length;
 
     // TODO. 航司客户 // 这里用链表 -- 这个属性需要初始化(数据域，指针域)， 这个属性需要 增删改查
@@ -21,7 +24,7 @@ typedef struct airline_info
 } airline_info_type;
 
 // 使用顺序表（这里限制10个， 每一个航司是一个结构体）
-typedef struct airlines_seq
+typedef struct
 {
     int length; // 这里固定为10
     int last;   // 尾元素下标

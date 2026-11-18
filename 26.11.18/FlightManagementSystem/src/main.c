@@ -2,39 +2,28 @@
 #include "flight_info.h"
 #include "all_airline_info.h"
 
-// 添加测试航班数据 函数声明
+// 测试 添加航班数据 函数声明
 void add_test_flight_data(flight_info_type_p flight_info_manager);
+// 测试 添加航司信息 函数声明
+void add_test_airline_info(airlines_seq_type_p airline_info_manager);
+
+
+flight_info_type_p flight_info_manager; // 航班管理
+airlines_seq_type_p airline_info_manager; // 航司管理
 
 int main(int argc, char const *argv[])
 {
+    // 初始化的变量作为全局变量， 在main.h中 `extern` 声明跨文件使用
 
     // 初始化航班管理 （航班可以有很多，用链表存储 注意时间复杂度）
-    flight_info_type_p flight_info_manager = flight_init_list();
+    flight_info_manager = flight_init_list();
+    // 初始化航空信息 (限制只有10个航司)
+    airline_info_manager = airline_init_list(10);
+
+    // 测试 添加航班数据 函数声明
     add_test_flight_data(flight_info_manager);
-
-    // // 初始化航空信息 (限制只有10个航司)
-    airlines_seq_type_p airline_info_manager = airline_init_list(10);
-
-    // 测试插入航司信息
-    airline_info_type CZ = {
-        .air_name = "南航",
-        .abbreviation = "CZ"};
-
-    airline_info_type CA = {
-        .air_name = "国航",
-        .abbreviation = "CA"};
-
-    airline_info_type MU = {
-        .air_name = "东航",
-        .abbreviation = "MU"};
-
-    // 插入航司数据
-    airline_insert_tail(airline_info_manager, CZ);
-    airline_insert_tail(airline_info_manager, CA);
-    airline_insert_tail(airline_info_manager, MU);
-
-    // 显示
-    airline_show_list(airline_info_manager);
+    // 测试 添加航司信息 函数声明
+    add_test_airline_info(airline_info_manager);
 
     // Airline_Administrator
 
@@ -57,7 +46,7 @@ int main(int argc, char const *argv[])
     // 超级管理员
 }
 
-// 添加测试航班数据 函数定义
+// 测试 添加航班数据 函数定义
 void add_test_flight_data(flight_info_type_p flight_info_manager)
 {
     // 测试插入航班信息
@@ -113,4 +102,29 @@ void add_test_flight_data(flight_info_type_p flight_info_manager)
 
     // 显示
     flight_show_list(flight_info_manager);
+}
+
+// 测试 添加航司信息 函数定义
+void add_test_airline_info(airlines_seq_type_p airline_info_manager)
+{
+    // 测试插入航司信息
+    airline_info_type CZ = {
+        .air_name = "南航",
+        .abbreviation = "CZ"};
+
+    airline_info_type CA = {
+        .air_name = "国航",
+        .abbreviation = "CA"};
+
+    airline_info_type MU = {
+        .air_name = "东航",
+        .abbreviation = "MU"};
+
+    // 插入航司数据
+    airline_insert_tail(airline_info_manager, CZ);
+    airline_insert_tail(airline_info_manager, CA);
+    airline_insert_tail(airline_info_manager, MU);
+
+    // 显示
+    airline_show_list(airline_info_manager);
 }
