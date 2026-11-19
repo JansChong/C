@@ -23,6 +23,9 @@ typedef struct
     int length; // 最大员工数量
 } airline_admin_seq_type, *airline_admin_seq_type_p;
 
+// 航空管理员 链表 全局变量 
+extern airline_admin_seq_type_p airline_admin_manager;
+
 // 初始化顺序表
 airline_admin_seq_type_p airline_administrator_init_list(int length);
 // 注册 航司员工

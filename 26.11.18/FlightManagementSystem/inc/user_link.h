@@ -22,8 +22,12 @@ typedef struct _userinfo
 
 } userinfo_type, *userinfo_type_p;
 
+// 用户管理链表 全局变量 (给super_manager_sys.c用)
+extern userinfo_type_p user_info_manager;
+
 // 初始化
 userinfo_type_p user_init_list(void);
+
 // 插入数据到链表
 bool user_insert_head(userinfo_type_p head, userinfo value);
 // 按名字 查找 用户数据

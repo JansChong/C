@@ -265,7 +265,7 @@ bool push_user_to_airline(char *u_name, ride_info_type value)
         {
             // 添加该用户
             strcpy(airline_info_manager->data[idx].customer_list[airline_info_manager->data[idx].customer_list_length].u_name, u_name); // 用户名
-            airline_info_manager->data[idx].customer_list[airline_info_manager->data[idx].customer_list_length].number_of_flights = 0;  // 飞行次数
+            airline_info_manager->data[idx].customer_list[airline_info_manager->data[idx].customer_list_length].number_of_flights = 1;  // 飞行次数
             airline_info_manager->data[idx].customer_list[airline_info_manager->data[idx].customer_list_length].user_status = 1;        // 会员状态
             airline_info_manager->data[idx].customer_list[airline_info_manager->data[idx].customer_list_length].ismember = 1;           // 是否会员
 
