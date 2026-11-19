@@ -82,10 +82,8 @@ void init()
 
     // 测试 添加 航班 数据
     add_test_flight_data(flight_info_manager);
-
     // 测试 添加 航司 信息
     add_test_airline_info(airline_info_manager);
-
     // 测试 添加 航司员工 信息  (航司员工管理, 航司信息管理)
     add_test_airline_admin(airline_admin_manager, airline_info_manager);
     // 测试 添加用户 以及 为用户添加 行程

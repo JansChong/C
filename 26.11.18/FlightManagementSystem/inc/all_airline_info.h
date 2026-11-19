@@ -55,6 +55,8 @@ bool airline_delete_pos(airlines_seq_type_p list, char *abbreviation);
 int airline_find_value(airlines_seq_type_p list, char *abbreviation);
 // 显示所有航司数据
 void airline_show_list(airlines_seq_type_p list);
+// 显示航司简略数据 (航司名称, 缩写)
+void airline_show_simple_list(airlines_seq_type_p list);
 // 销毁顺序表
 void airline_destroy_list(airlines_seq_type_p list);
 

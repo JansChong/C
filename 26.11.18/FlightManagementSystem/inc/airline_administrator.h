@@ -7,9 +7,9 @@
 // 航司管理员(航司员工)信息数据 数据结构体
 typedef struct airline_administrator_data
 {
-    char *u_name;            // 名字
-    char *u_pass;            // 密码
-    char *Belonging_airline; // 所属航空公司 (以上要插入 航司信息 - 航司员工中)
+    char u_name[15];         // 名字
+    char u_pass[15];         // 密码
+    char Belonging_airline[8]; // 所属航空公司 (以上要插入 航司信息 - 航司员工中)
     char u_number[32];       // 工号要在插入航司员工表后 自动设置：航司缩写 + sum(260000+员工下标+1)
 } air_admin_type;
 

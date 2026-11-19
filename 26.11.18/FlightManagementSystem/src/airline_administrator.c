@@ -84,11 +84,11 @@ bool airline_administrator_seq_insert_tail(airline_admin_seq_type_p list, air_ad
             list->last += 1;
 
             // 尾插
-            list->data[list->last].u_name = value.u_name; // 输入名字
-            list->data[list->last].u_pass = value.u_pass; // 输入密码
-
-            // TODO.. 遍历输出航司信息中所有已经注册的航司，  这里用指令选择航司避免输入不存在的航司 （员工要加入已存在的航司）
-            list->data[list->last].Belonging_airline = value.Belonging_airline; // 选择所属航司(缩写)
+            // list->data[list->last].u_name = value.u_name; // 输入名字
+            // list->data[list->last].u_pass = value.u_pass; // 输入密码
+            // // TODO.. 遍历输出航司信息中所有已经注册的航司，  这里用指令选择航司避免输入不存在的航司 （员工要加入已存在的航司）
+            // list->data[list->last].Belonging_airline = value.Belonging_airline; // 选择所属航司(缩写)
+            list->data[list->last] = value;
 
             // 工号要在插入航司员工表后 自动设置：航司缩写 + sum(26000+员工下标+1)
             // 分配工号： 字符串拼接： (航司缩写 + 26000 + 当前员工下标 + 1)  如 CA26001
@@ -96,11 +96,11 @@ bool airline_administrator_seq_insert_tail(airline_admin_seq_type_p list, air_ad
 
             // 先在 航司用户表中 查找是否有该员工, 没有再加入
             // 整个 航司管理员(航司员工)信息数据 数据结构体 推入 当前航司-员工数组 中
-            airline_info_manager->data[find_idx].employee_list[airline_info_manager->data[find_idx].employee_list_length].u_name = list->data[list->last].u_name;
-            airline_info_manager->data[find_idx].employee_list[airline_info_manager->data[find_idx].employee_list_length].u_pass = list->data[list->last].u_pass;
-            airline_info_manager->data[find_idx].employee_list[airline_info_manager->data[find_idx].employee_list_length].Belonging_airline = list->data[list->last].Belonging_airline;
-            strcpy(airline_info_manager->data[find_idx].employee_list[airline_info_manager->data[find_idx].employee_list_length].u_number, list->data[list->last].u_number);
-
+            // airline_info_manager->data[find_idx].employee_list[airline_info_manager->data[find_idx].employee_list_length].u_name = list->data[list->last].u_name;
+            // airline_info_manager->data[find_idx].employee_list[airline_info_manager->data[find_idx].employee_list_length].u_pass = list->data[list->last].u_pass;
+            // airline_info_manager->data[find_idx].employee_list[airline_info_manager->data[find_idx].employee_list_length].Belonging_airline = list->data[list->last].Belonging_airline;
+            // strcpy(airline_info_manager->data[find_idx].employee_list[airline_info_manager->data[find_idx].employee_list_length].u_number, list->data[list->last].u_number);
+            airline_info_manager->data[find_idx].employee_list[airline_info_manager->data[find_idx].employee_list_length] = list->data[list->last];
             // 这个航司的员工数量+1
             airline_info_manager->data[find_idx].employee_list_length++;
 
@@ -139,13 +139,13 @@ int airline_administrator_seq_find_value(airline_admin_seq_type_p list, char *u_
             }
         }
 
-        printf("找不到该元素 %d\n", -1);
+        // printf("找不到该元素 %d\n", -1);
         return -1; // 找不到这个元素
     }
 
     // 顺序表为空
     else
-        printf("找不到该元素 %d\n", -1);
+        printf("顺序表为空 %d\n", -1);
     return -1;
 }
 
@@ -204,7 +204,7 @@ void airline_administrator_seq_show_list(airline_admin_seq_type_p list)
             char *airline_name = airline_info_manager->data[find_idx].air_name;
             // 工号      名字     所属航空公司
             // printf("%s\t\t%s\t\t%s", list->data[i].u_number, list->data.u_name, list->data->Belonging_airline);
-            printf("%s\t\t%s\t\t%s\n", list->data[i].u_number, list->data[i].u_name, airline_name);
+            printf("%s\t\t%s\t\t%s\t\t%s\t\t%s\n", list->data[i].u_number, list->data[i].u_name, airline_name, list->data[i].Belonging_airline, list->data[i].u_pass);
         }
         printf("############## 所有员工end ###############\n\n");
     }

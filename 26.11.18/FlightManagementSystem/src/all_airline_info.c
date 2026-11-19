@@ -202,6 +202,26 @@ void airline_show_list(airlines_seq_type_p list)
     printf("当前没有航司\n\n");
 }
 
+// 显示航司简略数据 (航司名称, 缩写)
+void airline_show_simple_list(airlines_seq_type_p list)
+{
+    // 航司名称  缩写
+    printf("%s\t%s\t%s\t\n", "编号", "航司名称", "缩写");
+    // 不为空才显示顺序表， 为空已有输出
+    if (!airline_isEmpty(list))
+    {
+        for (int i = 0; i <= list->last; i++)
+        {
+            printf("%d\t%s\t\t%s\t\n", i+1, list->data[i].air_name, list->data[i].abbreviation);
+        }
+        printf("\n");
+        return;
+    }
+
+    printf("当前没有航司\n\n");
+};
+
+
 /**
  * 销毁顺序表
  */
