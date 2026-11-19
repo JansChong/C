@@ -1,15 +1,19 @@
 #include "main.h"
 #include "flight_info.h"
 #include "all_airline_info.h"
+#include "user_link.h"
+
+// 管理系统 全局变量, 跨文件使用 extern 使用
+flight_info_type_p flight_info_manager;         // 航班管理
+airlines_seq_type_p airline_info_manager;       // 航司管理
+airline_admin_seq_type_p airline_admin_manager; // 航司管理员管理
 
 // 测试 添加航班数据 函数声明
 void add_test_flight_data(flight_info_type_p flight_info_manager);
 // 测试 添加航司信息 函数声明
 void add_test_airline_info(airlines_seq_type_p airline_info_manager);
-
-
-flight_info_type_p flight_info_manager; // 航班管理
-airlines_seq_type_p airline_info_manager; // 航司管理
+// 测试 添加航司员工信息 函数定义 (航司员工管理, 航司信息管理)
+void add_test_airline_admin(airline_admin_seq_type_p airline_admin_manager, airlines_seq_type_p airline_info_manager);
 
 int main(int argc, char const *argv[])
 {
@@ -19,31 +23,65 @@ int main(int argc, char const *argv[])
     flight_info_manager = flight_init_list();
     // 初始化航空信息 (限制只有10个航司)
     airline_info_manager = airline_init_list(10);
+    // 初始化航司管理员顺序表 (限制20个员工)
+    airline_admin_manager = airline_administrator_init_list(20);
 
-    // 测试 添加航班数据 函数声明
+    // 测试 添加航班数据
     add_test_flight_data(flight_info_manager);
-    // 测试 添加航司信息 函数声明
+    // 测试 添加航司信息
     add_test_airline_info(airline_info_manager);
+    // 测试 添加航司员工信息  (航司员工管理, 航司信息管理)
+    add_test_airline_admin(airline_admin_manager, airline_info_manager);
 
-    // Airline_Administrator
+    // 初始化用户表
+    userinfo_type_p user_info_manager = user_init_list();
 
-    // 航司管理员功能 （管理员限制20位，用顺序表存储结构体）
-    // 1.管理员注册登录
-    // a. 注册： 名称、密码、工号(自分配，用数组最后一个元素)、所属航司、
-    // b. 登录成功 可以管理 其航司名下航班 + 其航司参与的联合航班，包括：
-    // 2.航班信息录入： 允许管理员输入新航班的详细信息，包括航班号、目的地、出发地、出发时间和可用座位数，并将该航班信息存储到系统中。
-    // 3.航班行程取消
-    // 4.航班信息更新
-    // 5.航班信息显示
-    // 6.允许管理用户信息，包括添加新用户、删除用户、更新用户信息和查看用户列表。
-    // 这里只能管理当前航司的用户，
-    // 存在航司信息中 -- 如果坐了本航司的航班，就将该用户加入 航司客户表中 （并给该用户设置：姓名、飞行次数、 用户状态：0拉黑、 1正常、 是否会员：0否、1是）
-    // 航司信息中要存储： 航司名称，航司员工, 航司客户表中，旗下航班（遍历航班信息数据链表），合作航班（遍历合作航班数据链表），TODO..航班状态[可预定、可购买、可值机、候机、航班起飞、航班到达]，
-    // 7.系统退出
+    // 测试添加用户: 只需要 用户名 密码
+    userinfo user_a = {
+        .u_name = "张三",
+        .u_pass = "001"};
+    userinfo user_b = {
+        .u_name = "李四",
+        .u_pass = "001"};
+    userinfo user_c = {
+        .u_name = "王五",
+        .u_pass = "001"};
 
-    // 用户
+    // 用户插入到用户表
+    user_insert_head(user_info_manager, user_a);
+    user_insert_head(user_info_manager, user_b);
+    user_insert_head(user_info_manager, user_c);
+    // 输出所有用户
+    user_show_list(user_info_manager);
 
-    // 超级管理员
+    // 创建一个测试行程
+    ride_info_type temp_ride_a = {
+        .flight_number = "CA5033", // 航班号
+        .type = 0                  // 席位
+    };
+    // 给这个用户添加行程 (这里写死用户名, 后面登陆以后会获取到登陆的用户名)
+    add_itinerary(user_info_manager, "李四", temp_ride_a);
+    // 输出所有用户
+    user_show_list(user_info_manager);
+
+    // 再添加两个测试行程
+    ride_info_type temp_ride_b = {
+        .flight_number = "MU3037", // 航班号
+        .type = 2                  // 席位
+    };
+    ride_info_type temp_ride_c = {
+        .flight_number = "CZ3037", // 航班号
+        .type = 1                  // 席位
+    };
+    // 给这个用户添加行程 (这里写死用户名, 后面登陆以后会获取到登陆的用户名)
+    add_itinerary(user_info_manager, "李四", temp_ride_b);
+    add_itinerary(user_info_manager, "李四", temp_ride_c);
+    // 输出所有用户
+    user_show_list(user_info_manager);
+    // 输出航司数据 (此时应该包含用户)
+    airline_show_list(airline_info_manager);
+
+   
 }
 
 // 测试 添加航班数据 函数定义
@@ -125,6 +163,60 @@ void add_test_airline_info(airlines_seq_type_p airline_info_manager)
     airline_insert_tail(airline_info_manager, CA);
     airline_insert_tail(airline_info_manager, MU);
 
-    // 显示
+    // 测试查找航班
+    // int test = airline_find_value(airline_info_manager, "CA");
+    // printf("%d\n", test);
+
+    // 显示航司数据
+    airline_show_list(airline_info_manager);
+}
+
+// 测试 添加航司员工信息 函数定义  参数:(航司员工管理, 航司信息管理)
+void add_test_airline_admin(airline_admin_seq_type_p airline_admin_manager, airlines_seq_type_p airline_info_manager)
+{
+
+    // 要先存在航司, 才可以给航司注册员工
+    // air_admin_type 类型的员工参数
+    air_admin_type air_admin_a = {
+        .u_name = "jc",           // 名字
+        .u_pass = "000001",       // 密码
+        .Belonging_airline = "CZ" // 航司缩写
+        // 工号由系统自动分配
+    };
+    air_admin_type air_admin_b = {
+        .u_name = "wwwwwr",       // 名字
+        .u_pass = "000002",       // 密码
+        .Belonging_airline = "CA" // 航司缩写
+        // 工号由系统自动分配
+    };
+    air_admin_type air_admin_c = {
+        .u_name = "waga",         // 名字
+        .u_pass = "000003",       // 密码
+        .Belonging_airline = "MU" // 航司缩写
+        // 工号由系统自动分配
+    };
+    air_admin_type air_admin_d = {
+        .u_name = "董泪",         // 名字
+        .u_pass = "000004",       // 密码
+        .Belonging_airline = "CZ" // 航司缩写
+        // 工号由系统自动分配
+    };
+    air_admin_type air_admin_e = {
+        .u_name = "崔雅馨",       // 名字
+        .u_pass = "000004",       // 密码
+        .Belonging_airline = "CZ" // 航司缩写
+        // 工号由系统自动分配
+    };
+
+    // 插入员工数据
+    airline_administrator_seq_insert_tail(airline_admin_manager, air_admin_a);
+    airline_administrator_seq_insert_tail(airline_admin_manager, air_admin_b);
+    airline_administrator_seq_insert_tail(airline_admin_manager, air_admin_c);
+    airline_administrator_seq_insert_tail(airline_admin_manager, air_admin_d);
+    airline_administrator_seq_insert_tail(airline_admin_manager, air_admin_e);
+
+    // 显示所有员工数据
+    airline_administrator_seq_show_list(airline_admin_manager);
+    // 显示航司员工表中 是否有 员工
     airline_show_list(airline_info_manager);
 }

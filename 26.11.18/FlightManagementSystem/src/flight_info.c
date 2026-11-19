@@ -50,6 +50,16 @@ flight_info_type_p flight_create_node(flight_info_data_type value)
         // else{
         // 把席位信息加入到结构体数组
         memcpy(node->data.seat_arr, value.seat_arr, sizeof(value.seat_arr));
+
+        // 计算所有舱位之和
+        int effective_slots = 0;
+        for (int i = 0; i < 3; i++)
+        {
+           effective_slots += value.seat_arr[i].count;
+        }
+        // 设置所有舱位之和
+        node->data.effective_slots = effective_slots;
+        
         // 基建燃油
         node->data.infrastructure_fuel_price = value.infrastructure_fuel_price;
         // }
@@ -169,7 +179,7 @@ flight_info_type_p flight_search_by_flightnumber(flight_info_type_p head, char *
         // 如果找得到数据
         if (strcmp(temp->next->data.flight_number, flight_number) == 0)
         {
-            // printf("查找到数据 %d\n", temp->data.id);
+            // printf("查找到数据 %d\n", temp->next->data.flight_number);
 
             // TODO.. 找到节点以后需要判断当前航班是否有空座
             // 返回这个节点
@@ -179,7 +189,7 @@ flight_info_type_p flight_search_by_flightnumber(flight_info_type_p head, char *
         temp = temp->next;
     }
 
-    printf("******该航班没有数据\n\n");
+    printf("############该航班不存在################\n\n");
     return NULL;
 }
 

@@ -1,5 +1,5 @@
+#include "main.h"
 #include "all_airline_info.h"
-
 
 /**
  * @description: 初始化顺序表
@@ -39,7 +39,7 @@ airlines_seq_type_p airline_init_list(int length)
  */
 static bool airline_isEmpty(airlines_seq_type_p list)
 {
-    if (list == NULL || list->last < 0 ||  list->data == NULL)
+    if (list == NULL || list->last < 0 || list->data == NULL)
     {
         printf("当前顺序表为空\n");
         return true; // 为空
@@ -62,7 +62,7 @@ static bool airline_isFull(airlines_seq_type_p list)
 }
 
 /**
- * @description: 尾插
+ * @description: 添加航司数据
  * @param: {} list 指向顺序表的指针
  * @param: {} value 新插入元素的值
  * @return boolean
@@ -78,7 +78,8 @@ bool airline_insert_tail(airlines_seq_type_p list, airline_info_type value)
         // 尾插
         list->data[list->last].air_name = value.air_name;
         list->data[list->last].abbreviation = value.abbreviation;
-        list->data[list->last].employee_list_length = 0; // 长度为0
+        list->data[list->last].employee_list_length = 0; // 员工长度为0
+        list->data[list->last].customer_list_length = 0; // 客户长度为0
         // printf("尾插成功\n");
         return true;
     }
@@ -138,7 +139,7 @@ int airline_find_value(airlines_seq_type_p list, char *abbreviation)
             // 字符串比较 int strcmp(const char *str1, const char *str2)
             if (strcmp(list->data[i].abbreviation, abbreviation) == 0)
             {
-                printf("该元素下标为 %d\n", i);
+                // printf("该元素下标为 %d\n", i);
                 return i;
             }
         }
@@ -162,20 +163,37 @@ void airline_show_list(airlines_seq_type_p list)
 {
     printf("############### 所有航司数据begin ###############\n");
     // 航司名称  缩写  员工
-    printf("%s\t%s\t\t%s\n", "航司名称", "缩写", "员工");
+    printf("%s\t%s\t\t%s\t\n", "航司名称", "缩写", "员工");
     // 不为空才显示顺序表， 为空已有输出
     if (!airline_isEmpty(list))
     {
         for (int i = 0; i <= list->last; i++)
         {
-            printf("%s\t\t%s\t\t", list->data[i].air_name, list->data[i].abbreviation);
+            printf("---------------------------\n%s\t\t%s\t\t", list->data[i].air_name, list->data[i].abbreviation);
 
             // 遍历员工信息
             for (int j = 0; j < list->data[i].employee_list_length; j++)
             {
-                printf("%s ", list->data[i].employee_list[j].u_name);
+                printf("%s\t", list->data[i].employee_list[j].u_name);
+            }
+
+            printf("\n\n本航司名下客户:\n");
+            printf("%s\t%s\t%s\t%s\n", "客户", "乘坐本司航班次数", "客户状态", "会员");
+            // 遍历客户信息
+            for (int j = 0; j < list->data[i].customer_list_length; j++)
+            {
+                // printf("%s%d%s%s\n",  "客户", "乘坐本司航班次数", "客户状态", "会员");
+
+                printf("%s\t%d\t\t\t%s\t\t%s\n",
+                       list->data[i].customer_list[j].u_name,
+                       list->data[i].customer_list[j].number_of_flights,
+                       list->data[i].customer_list[j].user_status == 0 ? "拉黑" : "正常",
+                       list->data[i].customer_list[j].ismember == 0 ? "否" : "是");
+                       
             }
             printf("\n");
+
+            // 遍历用户信息
         }
         printf("################ 所有航司数据end ################\n\n");
         return;
@@ -202,3 +220,68 @@ void airline_destroy_list(airlines_seq_type_p list)
     printf("顺序表销毁成功\n");
     return;
 }
+
+// 把员工推入航司员工表中
+bool push_employee_to_airline()
+{
+    // TODO..
+    return false;
+};
+
+/**
+ * 把用户推入航司用户表中
+ * @param u_name 用户名
+ * @param value 航班信息 {航班号, 席位}
+ */
+bool push_user_to_airline(char *u_name, ride_info_type value)
+{
+    // 把这个用户添加到航司的用户表中
+    // 用缩写 查找某个航司(airlines_seq_type_p 航司链表, 航司缩写) => (返回下标 或者 -1)
+    char code[3] = {0};                    // 存2个字符 + 结束符
+    strncpy(code, value.flight_number, 2); // 缩写
+
+    // 用缩写查找航司
+    int idx = airline_find_value(airline_info_manager, code); // 查找指定航司
+
+    // 找到航司
+    if (idx != -1)
+    {
+        int flag = -1;
+
+        // 先在 航司用户表中 查找是否有该用户, 有则数量+1, 无则新增一个用户
+        // 遍历该航司的用户表, 看看该用户是否存在
+        for (int i = 0; i < airline_info_manager->data[idx].customer_list_length; i++)
+        {
+            // 如果用户存在
+            if (strcmp(airline_info_manager->data[idx].customer_list[i].u_name, u_name) == 0)
+            {
+                flag = i;
+                break;
+            }
+        }
+
+        // 航司中没有该用户
+        if (flag == -1)
+        {
+            // 添加该用户
+            strcpy(airline_info_manager->data[idx].customer_list[airline_info_manager->data[idx].customer_list_length].u_name, u_name); // 用户名
+            airline_info_manager->data[idx].customer_list[airline_info_manager->data[idx].customer_list_length].number_of_flights = 0;  // 飞行次数
+            airline_info_manager->data[idx].customer_list[airline_info_manager->data[idx].customer_list_length].user_status = 1;        // 会员状态
+            airline_info_manager->data[idx].customer_list[airline_info_manager->data[idx].customer_list_length].ismember = 1;           // 是否会员
+
+            // 管理航司用户长度
+            airline_info_manager->data[idx].customer_list_length++;
+        }
+        // 如果存在该用户, 飞行次数+1
+        else
+        {
+            airline_info_manager->data[idx].customer_list[flag].number_of_flights++; // 飞行次数+1
+        }
+
+        return true;
+    }
+
+    // 找不到该航司
+    printf("找不到这个航司, 无法为航司插入新用户\n");
+    return false;
+};

@@ -4,9 +4,6 @@
 
 #include "main.h"
 
-// 航班管理 跨文件声明 在 main.c 中已定义
-extern flight_info_type_p flight_info_manager; 
-
 // 航班信息数据 数据结构体
 typedef struct flight_info_data
 {
@@ -22,6 +19,10 @@ typedef struct flight_info_data
     //  （合作航司）
     //  仓位席别+数量+价格：[{type, count, price}, {type, count, price}, {type, count, price}]
     struct seat_details seat_arr[3];
+
+    // 所有可用舱位之和
+    int effective_slots;
+     
     //  基建燃油
     float infrastructure_fuel_price;
 
@@ -45,6 +46,10 @@ typedef struct flight_info_link
 
 } flight_info_type, *flight_info_type_p;
 
+
+// 航班管理 跨文件声明 在 main.c 中已定义
+extern flight_info_type_p flight_info_manager;
+
 // 初始化
 flight_info_type_p flight_init_list(void);
 // 用航班信息结构体 创建 管理结构体 -- 然后把管理结构体插入链表
@@ -66,5 +71,7 @@ flight_info_type_p flight_remove_data(flight_info_type_p head, char *flight_numb
 void flight_show_list(flight_info_type_p head);
 // 退出系统， 是否所有航班信息
 bool flight_destroy(flight_info_type_p head);
+
+
 
 #endif // !_FLIGHT_INFO_H
