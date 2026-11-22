@@ -18,6 +18,7 @@ Release/
 *.eww
 
 # VSCode / 编辑器
+.DS_Store
 .vscode/
 *.swp
 
