@@ -76,7 +76,7 @@ int main(int argc, char const *argv[])
 #if 0 
         `fet = read(fd2, buf2, 10);
         if (fet <= 0) break;
-        write(STDOUT_FILENO, buf2, fet); // 写入道标准输出, 明确告诉它"只输出 fet 个字节"`
+        write(STDOUT_FILENO, buf2, fet); // 写入到标准输出, 明确告诉它"只输出 fet 个字节"`
         `write` 按字节数输出，不依赖`'\0'` ，`char buf2[10]` 也不用改。做文件拷贝这类场景这是标准写法。
 #endif
     }

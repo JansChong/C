@@ -18,3 +18,6 @@ C语言&amp;嵌入式学习
 
 沈华龙: 【有道云笔记】GZ2634
 https://share.note.youdao.com/s/AMtJbdk8
+
+
+1BIT, 1BYTE, 1KB, 1MB, 1GB, 1TB
