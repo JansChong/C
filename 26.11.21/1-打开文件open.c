@@ -2,7 +2,8 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
-#include <unistd.h>
+
+#include <unistd.h> // read
 
 int main()
 {
@@ -24,13 +25,15 @@ int main()
         return -1;
     }
 
+    // 打开成功, 返回 文件标识符
+    printf("%d\n", fd);
+
     // close() 关闭文件
     // 头文件：#include <unistd.h>
     // 函数原型： int close(int fd);
     // 说明：当使用完文件后若已不再需要则可使用 close() 关闭该文件，调用 close() 会让数据写回磁盘，并释放该文件所占用的资源。参数 fd 为先前由 open() 或 creat() 所返回的文件描述词。
     // 返回值：若文件顺利关闭则返回 0，发生错误时返回 - 1。
     // 附加说明：虽然在进程结束时，系统会自动关闭已打开的文件，但仍建议自行关闭文件，并确实检查返回值。
-    printf("%d\n", fd);
     close(fd);
     printf("%d\n", fd);
     return 0;
