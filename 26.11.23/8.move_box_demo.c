@@ -53,12 +53,13 @@ int main(int argc, char const *argv[])
     // tips: 晚上的练习：-450  +550
     while (1)
     {
-        // TODO。
+        // 边界控制
         if (count < -250 || count > 250)
         {
+            // 反向移动
             flag = flag * -1;
         }
-
+        // 设置偏移量
         count += flag;
 
         // 水平起始地址： 1024/2 - 50  + 50
