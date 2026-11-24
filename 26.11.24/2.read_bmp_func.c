@@ -29,7 +29,6 @@ int *read_bmp_func(char *img_src)
     // 添加: 通过bmp_head,获取图片尺寸
     char bmp_head[55] = {0};
     read(bmp_fd, bmp_head, 54);
-    printf("%s\n", bmp_head);
 
     // 获取图片宽高
     int *width = (int *)(bmp_head + 18);

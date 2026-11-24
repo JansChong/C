@@ -1,3 +1,5 @@
+// 实现4张图片循环显示，本文件需要编译 2.read_bmp_func.c 和 3.banner.c
+
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
@@ -7,12 +9,11 @@
 #include <unistd.h>
 #include <sys/mman.h>
 
-// 实现4张图片循环显示，本文件需要编译 2.read_bmp_func.c 和 3.banner.c
 
 // #define img_src "./成都熊猫基地.bmp" // 要读取的图片路径
 #define SCREEN_SIZE (1024 * 600) // 显示屏大小
-// #define CONNECT(a, b) a##b       // 变量名递增, 后面换成数组了，这个变量名拼接不用了
 
+int lcd_fd;
 int *map;     // 内存映射
 extern int w; // 图片宽高
 extern int h; // 图片宽高
@@ -21,14 +22,14 @@ extern int h; // 图片宽高
 int *read_bmp_func(char *img_src);
 
 // 显示图片到指定位置
-void show_image_to_location(img_buf, x, y)
+void show_image_to_location(int *img_buf, int x, int y)
 {
     // 1. 打开文件 (液晶屏和图片)
-    int lcd_fd = open("/dev/fb0", O_RDWR);
+    lcd_fd = open("/dev/fb0", O_RDWR);
     if (lcd_fd == -1)
     {
         perror("open fail");
-        return -1;
+        return;
     }
 
     // 因为图片的buf, 和lcd显示屏要渲染的1024*600的buf大小不一致, 所以要想办法把图片的buf 在 指定 x,y 写入 1024*600的buf中
@@ -49,7 +50,7 @@ void show_image_to_location(img_buf, x, y)
         for (int j = 0; j < w; j++) // 列, 即图片的宽度
         {
             // lcd一行有1024个像素, image一行有w个像素
-            p[1024 * i + j] = img_buf[w * i + j]
+            p[1024 * i + j] = img_buf[w * i + j];
         }
     }
 }
@@ -58,29 +59,28 @@ int main(int argc, char const *argv[])
 {
 
     // 图片转file_buf, 用数组存储每一张图片的地址
-    // int *images[4];
-    // images[0] = read_bmp_func("./成都熊猫基地.bmp");
-    // images[1] = read_bmp_func("./北京飞广州.bmp");
-    // images[2] = read_bmp_func("./重庆魁星楼.bmp");
-    // images[3] = read_bmp_func("./汕尾海丰.bmp");
+    int *images[4];
+    images[0] = read_bmp_func("./成都熊猫基地.bmp");
+    images[1] = read_bmp_func("./北京飞广州.bmp");
+    images[2] = read_bmp_func("./重庆魁星楼.bmp");
+    images[3] = read_bmp_func("./汕尾海丰.bmp");
 
-    // int *image_buf = read_bmp_func("./成都熊猫基地.bmp");
-
-    // int i = 0;
-    // while (1)
-    // {
-    //     // 写入虚拟内存
-    //     memcpy(map, images[i], SCREEN_SIZE * 4); // 任意大小任意位置只需要 改写入的方式而已
-    //     sleep(2.5);
-    //     i = (i + 1) % 4; // 循环i
-    // }
+    int i = 0;
+    while (1)
+    {
+        show_image_to_location(images[i], 0, 0);
+        // 写入虚拟内存
+        // memcpy(map, images[i], SCREEN_SIZE * 4); // 任意大小任意位置只需要 改写入的方式而已
+        sleep(2.5);
+        i = (i + 1) % 4; // 循环i
+    }
 
     close(lcd_fd); // 关闭文件
     // 释放 read_bmp_func 函数申请的空间
-    // for (int i = 0; i < 4; i++)
-    // {
-    //     free(images[i]);
-    // }
+    for (int i = 0; i < 4; i++)
+    {
+        free(images[i]);
+    }
     munmap(map, 1024 * 600 * 4); // 解除内存映射
     return 0;
 }
