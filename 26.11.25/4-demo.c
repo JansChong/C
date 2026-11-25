@@ -27,17 +27,16 @@ int main()
 
             // size_t fwrite(const void * ptr, size_t size, size_t nmemb, FILE * stream);
             // buf写入fp2
-            // fwrite(buf, 20, ret, fp2); // 少两个没有写入
+            // fwrite(buf, 20, ret, fp2); // TODO..  少两个没有写入
             fwrite(buf, 1, ret, fp2); // 这样每次写入一个字节，写入实际读取到的大小，函数返回实际写入的大小
-
+            // 通过循环读写，可以实现文件拷贝
         }
 
         // ferror 返回0没出错， 返回非0则出错
-        if(ferror(fp1) != 0){
+        if (ferror(fp1) != 0)
+        {
             perror("读取fp1出错\n");
             return -1;
         }
     }
-
-
 }

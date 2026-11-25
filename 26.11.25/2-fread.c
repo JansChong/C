@@ -26,13 +26,13 @@ int main()
         {
             printf("文件读取完毕\n");
         }
-
         if (ferror(fp) != 0)
         {
             printf("读取出错\n");
             return -1;
         }
     }
+    // 具体用法看 4-demo.c 和 作业 
 
     printf("ret=%ld\n", ret); // 3
     printf("%s\n", buf);      // 读取到的内容
