@@ -17,6 +17,7 @@ int main(int argc, char const *argv[])
 
     for (int i = 0; i < 2; i++)
     {   
+        // fscanf() 获取指定格式的数据
         // 成功则返回参数数目，失败则返回-1，错误原因存于errno中。
         int ret = fscanf(fp, "%s %d %f", name, &age, &score); // 读取文件的内容, 按指定格式指定位置
 

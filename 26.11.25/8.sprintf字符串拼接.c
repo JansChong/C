@@ -8,7 +8,7 @@ int main(int argc, char const *argv[])
     char name[10] = "/image";
     char format[10] = "jpg";
 
-    // 两个字符串按指定格式拼接, 输出到数据缓冲区
+    // sprintf() 多个字符串按指定格式拼接, 输出到 char * ;   (格式化字符串复制到字符串数组) 
     // 返回拼接的字符串长度
     int ret = sprintf(path_name, "%s%s.%s", path, name, format);
 
