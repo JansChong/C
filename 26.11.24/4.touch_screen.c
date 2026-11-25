@@ -14,6 +14,7 @@ struct input_event {
       __u16 code; //事件的编码   -> 对事件进一步的描述  左键/A键/x轴/y轴
       __s32 value;//事件的值
 };
+${workspaceFolder}/**
 #endif
 
 // 定义一个相同类型的结构体, 用来存储触摸数据
