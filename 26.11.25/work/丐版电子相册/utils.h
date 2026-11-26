@@ -28,6 +28,7 @@ typedef struct
 } touch_event_t;
 
 extern node_type_p banner_list;
+extern int *map;
 
 /* 触摸事件容差: 横向移动超过这个数才算滑动, 小于等于它就当作普通点击 */
 #define SWIPE_TOLERANCE 50
@@ -50,5 +51,56 @@ void touch_close(void);
 
 // 读取路径下的文件, 存入双向循环链表中
 bool get_dir_designated_file(char *path, char *file_extension);
+
+// 图片特效
+int show_1152000bmp(char *pathname, int *show_1152000bmp_fd);
+int show_location_bmp(char *pathname, int lcd_x_coordinates, int lcd_y_coordinates, int wide, int height, int *show_bmp_lcd_mmap);
+
+int pic_circular_spread(char *pathname, int *pic_circular_spread_fd);
+int pic_circular_shrink(char *pathname, int *pic_circular_shrink_fd);
+int pic_down(char *pathname, int *pic_down_fd);
+int pic_up(char *pathname, int *pic_up_fd);
+int pic_left(char *pathname, int *pic_left_fd);
+int pic_right(char *pathname, int *pic_right_fd);
+int pic_transverse_blinds(char *pathname, int *pic_transverse_blinds_fd);
+int pic_vertical_blinds(char *pathname, int *pic_vertical_blinds_fd);
+int pic_left_right_coincidence(char *pathname, int *pic_left_right_coincidence_fd);
+int pic_mid_spread(char *pathname, int *pic_mid_spread_fd);
+int pic_oblique_block(char *pathname, int *pic_oblique_block_fd);
+
+
+// ===== 函数指针数组 =====
+// 所有动画函数的签名都是：int 函数名(char *pathname, int *lcd_mmap)
+// 所以函数指针类型是：int (*)(char *, int *)
+extern int (*effects[])(char *, int *);
+// 特效总数
+#define EFFECTS_NUM  (sizeof(effects) / sizeof(effects[0]))
+
+// int main()
+// {
+//     int lcd_fd = open("/dev/fb0", O_RDWR);
+//     int *map = mmap(NULL, LCD_TOTAL * 4, PROT_WRITE, MAP_SHARED, lcd_fd, 0);
+
+//     char *images[] = {
+//         "./1.bmp", "./2.bmp", "./3.bmp",
+//         "./4.bmp", "./5.bmp", "./6.bmp",
+//         "./7.bmp", "./8.bmp", "./9.bmp",
+//         "./10.bmp", "./11.bmp"
+//     };
+
+//     while (1)
+//     {
+//         // 依次播放 11 种特效
+//         for (int i = 0; i < EFFECTS_NUM; i++)
+//         {
+//             effects[i](images[i], map);   // 调用第 i 个特效
+//             sleep(2);
+//         }
+//     }
+
+//     munmap(map, LCD_TOTAL * 4);
+//     close(lcd_fd);
+//     return 0;
+// }
 
 #endif // !_UTILS_H

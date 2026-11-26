@@ -8,7 +8,7 @@
 // 管理结构体
 typedef struct node
 {
-      char *data;
+      char data[256];
       struct node *prev;
       struct node *next;
 } node_type, *node_type_p;

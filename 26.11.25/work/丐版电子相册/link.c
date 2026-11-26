@@ -32,7 +32,8 @@ node_type_p create_node(char *value)
             return NULL;
       }
 
-      node->data = value;
+      // node->data = value;
+      strcpy(node->data, value);
       // 节点的两侧先指向自己 或 NULL
       node->next = node;
       node->prev = node;

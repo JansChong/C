@@ -274,7 +274,7 @@ touch_event_t get_touch_event(void)
  */
 bool get_dir_designated_file(char *path, char *file_extension)
 {
-    
+
     DIR *dir = opendir(path); //  打开目录以获得 DIR* 形态的目录流（目录指针）， 成功则返回 目录流， 失败返回null
     if (dir == NULL)
     {
@@ -285,7 +285,6 @@ bool get_dir_designated_file(char *path, char *file_extension)
     // 字符串拼接 得到 文件后缀
     char *suffix; // .bmp
     sprintf(suffix, ".%s", file_extension);
-    
 
     // 每个文件的名字
     char path_name[256];
@@ -304,7 +303,6 @@ bool get_dir_designated_file(char *path, char *file_extension)
             closedir(dir); // 关闭目录读取
             return true;
         }
-        
 
         // 读取指定格式的文件
         if (dp->d_type == DT_REG)
@@ -321,7 +319,6 @@ bool get_dir_designated_file(char *path, char *file_extension)
                 // 把路径推入循环链表中
                 // 头插
                 insert_head(banner_list, path_name);
-                show_list(banner_list);
             }
         }
     }
