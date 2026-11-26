@@ -5,6 +5,7 @@
 #include <sys/mman.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 
 #include <sys/types.h> // open
 #include <sys/stat.h>
@@ -12,6 +13,8 @@
 #include <unistd.h> // read. close
 
 #include <linux/input.h> // 导入 输入设备 的头文件
+#include <dirent.h>
+#include "link.h"
 
 /* 触摸事件监听返回的结构体 */
 typedef struct
@@ -23,6 +26,8 @@ typedef struct
       int x;           // 当前 x 坐标
       int y;           // 当前 y 坐标
 } touch_event_t;
+
+extern node_type_p banner_list;
 
 /* 触摸事件容差: 横向移动超过这个数才算滑动, 小于等于它就当作普通点击 */
 #define SWIPE_TOLERANCE 50
@@ -42,5 +47,8 @@ int touch_open(const char *dev_path);
 touch_event_t get_touch_event(void);
 // 关闭触摸屏
 void touch_close(void);
+
+// 读取路径下的文件, 存入双向循环链表中
+bool get_dir_designated_file(char *path, char *file_extension);
 
 #endif // !_UTILS_H

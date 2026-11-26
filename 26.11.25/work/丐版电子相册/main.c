@@ -1,17 +1,23 @@
 #include "utils.h"
 
+node_type_p banner_list;
+
 // 目录检索到系统指定目录下（子目录）所有的bmp图片，
 // 并且存入到链表 （顺序表： last, length, data）
 // 遍历链表把图片显示在lcd上 （电子相册）
-
-int main(int argc, char const *argv[])
+int main()
 {
+    // 初始化链表
+    banner_list = init_list();
+
+    // 读取图片路径
+    get_dir_designated_file("./images/", "bmp");
 
     // 要显示的图片路径 -- 任意大小
-    char *image_src[7] = {"./颜色.bmp", "./光轨.bmp", "./迷宫.bmp", "./成都熊猫基地.bmp", "./北京飞广州.bmp", "./重庆魁星楼.bmp", "./汕尾海丰.bmp"};
+    // char *image_src[7] = {"./颜色.bmp", "./光轨.bmp", "./迷宫.bmp", "./成都熊猫基地.bmp", "./北京飞广州.bmp", "./重庆魁星楼.bmp", "./汕尾海丰.bmp"};
 
     // 要写入LCD显示屏的坐标
-    int location[7][2] = {{230, 100}, {450, 30}, {600, 100}, {0, 0}, {0, 0}, {0, 0}, {0, 0}};
+    // int location[7][2] = {{230, 100}, {450, 30}, {600, 100}, {0, 0}, {0, 0}, {0, 0}, {0, 0}};
 
     int i = 0;              // 数组下标 (读取图片 和 图片需要显示的位置)
     int *images_buf = NULL; // 图片数据缓冲区

@@ -183,9 +183,8 @@ void add_touch_event_listener(void)
     close(fd);
 }
 
-
 // 触摸屏文件描述符(全局, 给下面函数共用)
-static int g_fd = -1 ; 
+static int g_fd = -1;
 
 /* ========= 3. 打开触摸屏 ========= */
 int touch_open(const char *dev_path)
@@ -265,4 +264,65 @@ touch_event_t get_touch_event(void)
     result.x = cur_x;
     result.y = cur_y;
     return result;
+}
+
+/**
+ * 读取路径下的文件, 存入双向循环链表中
+ * @param path 要读取的目标路径, 如 "./"
+ * @param file_extension 要读取的文件格式, 如 "bmp"
+ * @return 返回顺序表
+ */
+bool get_dir_designated_file(char *path, char *file_extension)
+{
+    
+    DIR *dir = opendir(path); //  打开目录以获得 DIR* 形态的目录流（目录指针）， 成功则返回 目录流， 失败返回null
+    if (dir == NULL)
+    {
+        printf("open dir fail\n");
+        return false;
+    }
+
+    // 字符串拼接 得到 文件后缀
+    char *suffix; // .bmp
+    sprintf(suffix, ".%s", file_extension);
+    
+
+    // 每个文件的名字
+    char path_name[256];
+
+    // 循环读取目录流下的文件，用其返回值类型的变量接收函数的返回值：
+    while (1)
+    {
+        bzero(path_name, 0); //  sprintf 函数不会清空之前的文本, 所以每次循环手动清空一下
+
+        struct dirent *dp = readdir(dir); // 循环读取指定目录下的文件
+        // 如果文件读取返回 NULL, 则表示读取失败
+
+        if (dp == NULL)
+        {
+            printf("读取结束\n");
+            closedir(dir); // 关闭目录读取
+            return true;
+        }
+        
+
+        // 读取指定格式的文件
+        if (dp->d_type == DT_REG)
+        {
+            char *str = strrchr(dp->d_name, '.');        // 找到.的下标, char * 未读取到\0会一直往后读取，直到\0
+            if (str != NULL && strcmp(str, suffix) == 0) // 这里是查找目录下所有的.bmp文件
+            {
+                // printf("i-node=%lu type=%hhu name=%s\n", dp->d_ino, dp->d_type, dp->d_name);
+
+                // "./images/" + ".aaa.bmp"
+                sprintf(path_name, "%s%s", path, dp->d_name);
+
+                // printf("%s\n", path_name);
+                // 把路径推入循环链表中
+                // 头插
+                insert_head(banner_list, path_name);
+                show_list(banner_list);
+            }
+        }
+    }
 }
