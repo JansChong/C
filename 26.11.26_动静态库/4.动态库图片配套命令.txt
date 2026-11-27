@@ -1,0 +1,7 @@
+jc@ubuntu22:/mnt/hgfs/C/26.11.26_动静态库/动态库测试练习$ gcc -fPIC -o ./src/sum.o -c ./src/sum.c
+jc@ubuntu22:/mnt/hgfs/C/26.11.26_动静态库/动态库测试练习$ gcc -fPIC -o ./src/sub.o -c ./src/sub.c
+jc@ubuntu22:/mnt/hgfs/C/26.11.26_动静态库/动态库测试练习$ gcc -shared -o ./lib/libcalc.so ./src/sub.o ./src/sum.o
+也可以用一行命令，直接将 .c 编译成 .so  ##:  gcc -fPIC -shared -o  ./lib/libadd.so  ./src/sum.c  ./src/sub.c 
+
+jc@ubuntu22:/mnt/hgfs/C/26.11.26_动静态库/动态库测试练习$ gcc ./src/main.c -o ./bin/main -L./lib -lcalc -I./inc
+

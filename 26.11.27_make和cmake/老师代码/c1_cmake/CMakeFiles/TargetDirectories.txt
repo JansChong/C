@@ -1,0 +1,3 @@
+/mnt/d/GZ2634二阶段/06-动静态库与makefile/02/1-code/c1/CMakeFiles/main.dir
+/mnt/d/GZ2634二阶段/06-动静态库与makefile/02/1-code/c1/CMakeFiles/edit_cache.dir
+/mnt/d/GZ2634二阶段/06-动静态库与makefile/02/1-code/c1/CMakeFiles/rebuild_cache.dir

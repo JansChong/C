@@ -25,7 +25,6 @@ int main(int argc, char const *argv[])
     printf("%s\n", str3); // abc
     // %s会依次往后遍历，直到遇到\0
 
-    
     // 字符串输入
     char str[100] = {0};
 
